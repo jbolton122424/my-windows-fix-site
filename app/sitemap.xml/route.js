@@ -1,5 +1,6 @@
+// app/sitemap.xml/route.js
 export async function GET() {
-const baseUrl = "https://my-windows-fix-site-1.vercel.app";
+  const baseUrl = "https://my-windows-fix-site-1.vercel.app";
 
   const pages = [
     "",
@@ -10,7 +11,7 @@ const baseUrl = "https://my-windows-fix-site-1.vercel.app";
     "/fix/0x80070570",
     "/fix/0x80070057",
     "/fix/0x80072f8f",
-    "/fix/0x80070020"
+    "/fix/0x80070020",
   ];
 
   const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -28,7 +29,7 @@ ${pages
 
   return new Response(sitemapXml, {
     headers: {
-      "Content-Type": "application/xml"
-    }
+      "Content-Type": "application/xml",
+    },
   });
 }
