@@ -1,5 +1,5 @@
 export async function GET() {
-  const baseUrl = "https://YOUR-DOMAIN.com";
+Sitemap: https://my-windows-fix-site-1.vercel.app/sitemap.xml
 
   const pages = [
     "",

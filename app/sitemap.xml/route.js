@@ -1,5 +1,5 @@
 export async function GET() {
-  const baseUrl = "https://YOUR-DOMAIN.com";
+const baseUrl = "https://my-windows-fix-site-1.vercel.app";
 
   const pages = [
     "",
