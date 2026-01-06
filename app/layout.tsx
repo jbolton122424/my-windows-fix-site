@@ -15,12 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "My Windows Fix Site",
   description: "Step-by-step guides to fix Windows error codes",
-  other: [
-    {
-      name: "google-site-verification",
-      content: "quz8rSl4jAp9OnokA9WJbIuYLMEiIa6TmIdxuWNa4tA", // <-- ONLY the token string
-    },
-  ],
+  verification: {
+    google: "quz8rSl4jAp9OnokA9WJbIuYLMEiIa6TmIdxuWNa4tA",
+  },
 };
 
 export default function RootLayout({
