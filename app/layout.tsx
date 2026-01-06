@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
+// Load Google fonts
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -12,11 +13,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Metadata for the whole site
 export const metadata: Metadata = {
   title: "My Windows Fix Site",
   description: "Step-by-step guides to fix Windows error codes",
   verification: {
-    google: "quz8rSl4jAp9OnokA9WJbIuYLMEiIa6TmIdxuWNa4tA",
+    google: "oZ1Vt2noUR6m93KadfbG3-Oqnl7fwaWmDLjRdRkQ85E", // <-- your Google Search Console token
   },
 };
 
