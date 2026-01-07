@@ -1,9 +1,9 @@
-import { fixes } from "../../fixes"; // adjust path if needed
+import { fixes } from "../../data/fixes"; // adjust path if your fixes.ts is somewhere else
 import Navbar from "../../components/Navbar";
 
 export default function FixPage({ params }) {
-  const slug = params.slug; // gets the slug from the URL
-  const fix = fixes.find((f) => f.slug === slug);
+  const code = params.code; // gets the code from the URL
+  const fix = fixes.find((f) => f.code === code);
 
   if (!fix) {
     return (
@@ -11,7 +11,7 @@ export default function FixPage({ params }) {
         <Navbar />
         <main style={{ padding: "40px", fontFamily: "Arial" }}>
           <h1>Page not found</h1>
-          <p>No guide found for {slug}</p>
+          <p>No guide found for {code}</p>
         </main>
       </>
     );
@@ -21,8 +21,13 @@ export default function FixPage({ params }) {
     <>
       <Navbar />
       <main style={{ padding: "40px", fontFamily: "Arial" }}>
-        <h1>{fix.title}</h1>
+        <h1>Fix {fix.code}</h1>
         <p>{fix.description}</p>
+        <ol>
+          {fix.steps.map((step, idx) => (
+            <li key={idx}>{step}</li>
+          ))}
+        </ol>
       </main>
     </>
   );
