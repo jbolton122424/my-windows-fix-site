@@ -1,5 +1,6 @@
-import { fixes } from "../../fixes"; // Correct relative path
-import Navbar from "../../components/Navbar";
+import { fixes } from "../../../fixes"; // adjust if fixes.ts is in app/fixes.ts
+import Navbar from "../../../components/Navbar";
+
 
 
 export default function FixPage({ params }) {
