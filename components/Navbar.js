@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { fixes } from "@/app/data/fixes";
+import { fixes } from "@/app/fixes";
 
 export default function Nav() {
   return (
