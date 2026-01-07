@@ -1,5 +1,6 @@
-import { fixes } from "../../data/fixes"; // adjust path if your fixes.ts is somewhere else
+import { fixes } from "../../fixes"; // Correct relative path
 import Navbar from "../../components/Navbar";
+
 
 export default function FixPage({ params }) {
   const code = params.code; // gets the code from the URL
