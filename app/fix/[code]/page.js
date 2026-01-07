@@ -1,36 +1,23 @@
-import { fixes } from "../../../fixes"; // adjust if fixes.ts is in app/fixes.ts
-import Navbar from "../../../components/Navbar";
-
-
+// app/fix/[code]/page.js
+import { fixes } from "../../fixes"; // import the fixes array
 
 export default function FixPage({ params }) {
-  const code = params.code; // gets the code from the URL
-  const fix = fixes.find((f) => f.code === code);
+  const slug = params.code; // Next.js uses [code] as the param name
+  const fix = fixes.find((f) => f.slug === slug);
 
   if (!fix) {
     return (
-      <>
-        <Navbar />
-        <main style={{ padding: "40px", fontFamily: "Arial" }}>
-          <h1>Page not found</h1>
-          <p>No guide found for {code}</p>
-        </main>
-      </>
+      <main style={{ padding: "40px", fontFamily: "Arial" }}>
+        <h1>Page not found</h1>
+        <p>No guide found for {slug}</p>
+      </main>
     );
   }
 
   return (
-    <>
-      <Navbar />
-      <main style={{ padding: "40px", fontFamily: "Arial" }}>
-        <h1>Fix {fix.code}</h1>
-        <p>{fix.description}</p>
-        <ol>
-          {fix.steps.map((step, idx) => (
-            <li key={idx}>{step}</li>
-          ))}
-        </ol>
-      </main>
-    </>
+    <main style={{ padding: "40px", fontFamily: "Arial" }}>
+      <h1>{fix.title}</h1>
+      <p>{fix.description}</p>
+    </main>
   );
 }
