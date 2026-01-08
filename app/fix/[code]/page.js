@@ -1,8 +1,7 @@
-// app/fix/[code]/page.js
-import { fixes } from "../../fixes"; // import the fixes array
+import { fixes } from "@/app/fixes";
 
 export default function FixPage({ params }) {
-  const slug = params.code; // Next.js uses [code] as the param name
+  const slug = params.code;
   const fix = fixes.find((f) => f.slug === slug);
 
   if (!fix) {
@@ -21,3 +20,4 @@ export default function FixPage({ params }) {
     </main>
   );
 }
+

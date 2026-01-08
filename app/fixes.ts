@@ -9,4 +9,3 @@ export const fixes = [
   { slug: "0x80072f8f", title: "Fix 0x80072f8f", description: "SSL or TLS connection issue during Windows Update." },
   { slug: "0x80070020", title: "Fix 0x80070020", description: "Another process is locking Windows Update files." },
 ];
-

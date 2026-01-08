@@ -1,6 +1,7 @@
 // components/Navbar.js
 import Link from "next/link";
-import { fixes } from "../app/fixes"; // adjust path if needed
+import { fixes } from "@/app/fixes";
+
 
 export default function Navbar() {
   return (
