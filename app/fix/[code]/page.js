@@ -1,7 +1,7 @@
 import { fixes } from "../../fixes";
 
 export default function FixPage({ params }) {
-  const { code } = params;
+  const code = params.code;
 
   const fix = fixes.find((f) => f.slug === code);
 
@@ -21,3 +21,4 @@ export default function FixPage({ params }) {
     </main>
   );
 }
+
