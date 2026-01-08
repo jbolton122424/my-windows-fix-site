@@ -1,7 +1,8 @@
-import { fixes } from "@/app/fixes";
+import { fixes } from "../../fixes";
 
 export default function FixPage({ params }) {
   const slug = params.code;
+
   const fix = fixes.find((f) => f.slug === slug);
 
   if (!fix) {
@@ -20,4 +21,5 @@ export default function FixPage({ params }) {
     </main>
   );
 }
+
 
