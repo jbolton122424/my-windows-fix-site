@@ -1,5 +1,14 @@
 // app/fixes.ts
-export const fixes = [
+
+// Define the type for a fix
+export interface Fix {
+  slug: string;
+  title: string;
+  description: string;
+}
+
+// Array of fixes with type annotation
+export const fixes: Fix[] = [
   { slug: "0x80070422", title: "Fix 0x80070422", description: "Windows Update service is disabled or not running." },
   { slug: "0x80070005", title: "Fix 0x80070005", description: "Access denied error caused by permission issues." },
   { slug: "0x80072ee7", title: "Fix 0x80072ee7", description: "Network connectivity or DNS-related Windows Update error." },

@@ -1,15 +1,18 @@
-import { fixes } from "../../fixes";
+// app/fix/[code]/page.js
+import { fixes } from "@/app/fixes";
 
-export default function FixPage({ params }) {
-  const code = params.code;
+// No Navbar import here!
 
-  const fix = fixes.find((f) => f.slug === code);
+export default async function FixPage({ params }) {
+  const { code: slug } = await params;
+
+  const fix = fixes.find((f) => f.slug === slug);
 
   if (!fix) {
     return (
       <main style={{ padding: "40px", fontFamily: "Arial" }}>
         <h1>Page not found</h1>
-        <p>No guide found for {code}</p>
+        <p>No guide found for {slug}</p>
       </main>
     );
   }
@@ -21,4 +24,3 @@ export default function FixPage({ params }) {
     </main>
   );
 }
-

@@ -1,7 +1,6 @@
 // components/Navbar.js
 import Link from "next/link";
-import { fixes } from "@/app/fixes";
-
+import { fixes } from "../app/fixes"; // relative path to fixes.ts
 
 export default function Navbar() {
   return (
