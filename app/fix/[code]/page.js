@@ -1,6 +1,27 @@
 // app/fix/[code]/page.js
 import { fixes } from "@/app/fixes";
 
+/**
+ * Dynamic SEO metadata per error code page.
+ * Next.js will call this on the server to generate <title> and <meta name="description" ...>
+ */
+export async function generateMetadata({ params }) {
+  const { code: slug } = await params;
+  const fix = fixes.find((f) => f.slug === slug);
+
+  if (!fix) {
+    return {
+      title: "Fix not found | Windows Fix Guides",
+      description: "This Windows error code guide could not be found.",
+    };
+  }
+
+  return {
+    title: `${fix.title} | Windows Fix Guides`,
+    description: fix.description,
+  };
+}
+
 export default async function FixPage({ params }) {
   const { code: slug } = await params;
   const fix = fixes.find((f) => f.slug === slug);
