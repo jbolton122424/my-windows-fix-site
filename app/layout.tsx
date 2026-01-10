@@ -1,20 +1,31 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Navbar from "../components/Navbar"; // import your navbar component
+import Navbar from "../components/Navbar";
 import "./globals.css";
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
-  title: "My Windows Fix Site",
+  title: "Fix Error Help",
   description: "Step-by-step guides to fix Windows error codes",
   verification: {
-    google: "oZ1Vt2noUR6m93KadfbG3-Oqnl7fwaWmDLjRdRkQ85E",
+    google: "NjBZS2PB1qcoglARmCA5siAPkEGKpgRjmIQyQdUbY8I",
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
