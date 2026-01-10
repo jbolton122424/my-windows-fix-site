@@ -1,4 +1,6 @@
 // app/sitemap.xml/route.js
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   const baseUrl = "https://my-windows-fix-site-1.vercel.app";
 
@@ -29,7 +31,8 @@ ${pages
 
   return new Response(sitemapXml, {
     headers: {
-      "Content-Type": "application/xml",
+      "Content-Type": "application/xml; charset=utf-8",
+      "Cache-Control": "no-store, max-age=0",
     },
   });
 }
