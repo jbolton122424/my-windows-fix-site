@@ -2,7 +2,7 @@
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const baseUrl = "https://my-windows-fix-site-1.vercel.app";
+  const baseUrl = "https://fixerrorhelp.com";
 
   const pages = [
     "",

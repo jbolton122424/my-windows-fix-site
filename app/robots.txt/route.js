@@ -5,7 +5,7 @@ export async function GET() {
   const content = `User-agent: *
 Disallow:
 
-Sitemap: https://my-windows-fix-site-1.vercel.app/sitemap.xml`;
+Sitemap: https://fixerrorhelp.com/sitemap.xml`;
 
   return new Response(content, {
     headers: {
