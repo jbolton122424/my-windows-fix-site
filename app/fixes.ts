@@ -134,23 +134,72 @@ net start msiserver`,
     ],
   },
 
-  {
-    slug: "0x80070057",
-    title: "Fix 0x80070057",
-    description: "Invalid parameter or misconfigured Windows Update components.",
+    {
+    slug: "0x80070005",
+    title: "Fix 0x80070005",
+    description: "Access denied error caused by permission issues.",
     whatItMeans:
-      "This can be caused by invalid update settings, corrupted update cache, or system misconfiguration.",
+      "This error usually indicates Windows Update (or an installer) was blocked by permissions, security software, or restricted system folders.",
     tryFirst: [
-      "Restart your PC and retry.",
-      "Run Windows Update Troubleshooter.",
-      "Check date/time settings are correct (incorrect time can break updates).",
+      "Restart your PC and try again.",
+      "Temporarily disable third-party antivirus (if installed) and retry.",
+      "Run the update/installer as Administrator (right-click -> Run as administrator).",
     ],
     advanced: [
-      "Run: sfc /scannow",
-      "Run: DISM /Online /Cleanup-Image /RestoreHealth",
-      "Reset Windows Update components (we can add the full script next).",
+      "Run Windows Update Troubleshooter (Settings -> System -> Troubleshoot).",
+      "Run System File Checker: sfc /scannow (Command Prompt as Admin).",
+      "Run DISM repair: DISM /Online /Cleanup-Image /RestoreHealth",
+    ],
+    scriptSection: {
+      title: "Reset Windows Update Components (Permission-Related Fix)",
+      intro:
+        "If 0x80070005 occurs during Windows Update, resetting update components and repairing system files often resolves permission-related blocks.",
+      stepsIntro: "Run these commands one at a time (Command Prompt as Admin):",
+      code: `net stop wuauserv
+net stop bits
+net stop cryptsvc
+net stop msiserver
+
+ren C:\\Windows\\SoftwareDistribution SoftwareDistribution.old
+ren C:\\Windows\\System32\\catroot2 catroot2.old
+
+net start wuauserv
+net start bits
+net start cryptsvc
+net start msiserver
+
+DISM /Online /Cleanup-Image /RestoreHealth
+sfc /scannow`,
+      outro:
+        "Restart your PC and try Windows Update (or the installer) again.",
+    },
+    affiliateCallout: {
+      title: "If the Error Still Persists",
+      body: [
+        "If permissions are damaged or system files are corrupted, manual steps may not fully resolve 0x80070005.",
+        "An automated Windows repair tool can scan for common causes like broken update components and system corruption.",
+      ],
+      ctaText: "Fix access denied and Windows Update errors automatically",
+      href: "YOUR_AFFILIATE_LINK_HERE",
+      note:
+        "(This link is a placeholder for now. We'll replace it with your real affiliate link later.)",
+    },
+    faq: [
+      {
+        q: "What causes error 0x80070005?",
+        a: "It usually happens when a process is blocked by permissions, security software, or restricted system folders during an update or install.",
+      },
+      {
+        q: "Is 0x80070005 a Windows Update error?",
+        a: "It often appears in Windows Update, but it can also occur with app installers and Microsoft Store installs.",
+      },
+      {
+        q: "What should I try first?",
+        a: "Restart, temporarily disable third-party antivirus, then retry the update/installer as Administrator. If it still fails, run DISM and SFC and reset update components.",
+      },
     ],
   },
+
 
   {
     slug: "0x80072f8f",
