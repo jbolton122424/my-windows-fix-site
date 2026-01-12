@@ -16,6 +16,50 @@ export const fixes = [
       "Run System File Checker: open Command Prompt (Admin) and run: sfc /scannow",
       "Run DISM repair: DISM /Online /Cleanup-Image /RestoreHealth",
     ],
+    scriptSection: {
+      title: "Reset Windows Update Components",
+      intro:
+        "If enabling the service didn't work, Windows Update components may be stuck or corrupted. This reset is safe and commonly fixes 0x80070422.",
+      stepsIntro: "Run these commands one at a time (Command Prompt as Admin):",
+      code: `net stop wuauserv
+net stop bits
+net stop cryptsvc
+net stop msiserver
+
+ren C:\\Windows\\SoftwareDistribution SoftwareDistribution.old
+ren C:\\Windows\\System32\\catroot2 catroot2.old
+
+net start wuauserv
+net start bits
+net start cryptsvc
+net start msiserver`,
+      outro: "Restart your PC and try Windows Update again.",
+    },
+    affiliateCallout: {
+      title: "If the Error Still Persists",
+      body: [
+        "If system files or update components are damaged, manual steps may not fully resolve 0x80070422.",
+        "In that case, an automated Windows repair tool can scan for common causes like broken update services and corrupted system files.",
+      ],
+      ctaText: "Fix Windows Update errors automatically with this repair tool",
+      href: "YOUR_AFFILIATE_LINK_HERE",
+      note:
+        "(This link is a placeholder for now. We'll replace it with your real affiliate link later.)",
+    },
+    faq: [
+      {
+        q: "What causes error 0x80070422?",
+        a: "Most commonly it's caused by the Windows Update service being disabled. It can also be caused by corrupted update components or system files.",
+      },
+      {
+        q: "Is error 0x80070422 dangerous?",
+        a: "The error itself isn't dangerous, but it can prevent security updates from installing.",
+      },
+      {
+        q: "Can this error fix itself?",
+        a: "Sometimes a restart or re-enabling services fixes it. If it keeps returning, use the steps above.",
+      },
+    ],
   },
   {
     slug: "0x80070005",
@@ -136,21 +180,68 @@ export const fixes = [
       "Reset Windows Update components (we can add the full script next).",
     ],
   },
+
+  // UPDATED: 0x80070643 now includes script + affiliate callout + FAQ, like your polished page
   {
     slug: "0x80070643",
     title: "Fix 0x80070643",
     description: "Install failed (MSI error) during Windows Update or app install.",
     whatItMeans:
-      "This error often appears when a Windows Update or installer fails due to corrupted update components, a failing .NET/Windows Installer dependency, or system file corruption.",
+      "This error often appears when a Windows Update or installer fails due to corrupted update components, .NET/Windows Installer issues, or system file corruption.",
     tryFirst: [
       "Restart your PC and try the update/installation again.",
-      "Run Windows Update again after temporarily disabling third-party antivirus (if installed).",
+      "Temporarily disable third-party antivirus (if installed) and try again.",
       "If it's a specific app installer, right-click it and choose Run as administrator.",
     ],
     advanced: [
       "Run Windows Update Troubleshooter (Settings -> System -> Troubleshoot).",
       "Repair system files: open Command Prompt (Admin) and run: sfc /scannow",
       "Run DISM repair: DISM /Online /Cleanup-Image /RestoreHealth",
+    ],
+    scriptSection: {
+      title: "Reset Windows Update Components (Common Fix for 0x80070643)",
+      intro:
+        "If 0x80070643 keeps returning, Windows Update components or the installer pipeline may be stuck. This reset is safe and often fixes installer-related failures.",
+      stepsIntro: "Run these commands one at a time (Command Prompt as Admin):",
+      code: `net stop wuauserv
+net stop bits
+net stop cryptsvc
+net stop msiserver
+
+ren C:\\Windows\\SoftwareDistribution SoftwareDistribution.old
+ren C:\\Windows\\System32\\catroot2 catroot2.old
+
+net start wuauserv
+net start bits
+net start cryptsvc
+net start msiserver`,
+      outro:
+        "Restart your PC, then run Windows Update (or the installer) again.",
+    },
+    affiliateCallout: {
+      title: "If the Error Still Persists",
+      body: [
+        "If system files, update components, or installer dependencies are damaged, manual steps may not fully resolve 0x80070643.",
+        "An automated Windows repair tool can scan for common causes like corrupted system files and broken update components.",
+      ],
+      ctaText: "Fix Windows install/update errors automatically with this repair tool",
+      href: "YOUR_AFFILIATE_LINK_HERE",
+      note:
+        "(This link is a placeholder for now. We'll replace it with your real affiliate link later.)",
+    },
+    faq: [
+      {
+        q: "What causes error 0x80070643?",
+        a: "It's commonly an installer failure during Windows Update or an MSI-based install. Causes include corrupted update components, .NET/Windows Installer issues, security software interference, or system file corruption.",
+      },
+      {
+        q: "Is 0x80070643 a Windows Update error or an installer error?",
+        a: "Both. It often appears in Windows Update history, but it is frequently tied to MSI installer failures (including .NET or security definition updates).",
+      },
+      {
+        q: "What should I try first for 0x80070643?",
+        a: "Restart, temporarily disable third-party antivirus, then run the update/installer as Administrator. If it keeps failing, run SFC/DISM and reset Windows Update components.",
+      },
     ],
   },
 ];
