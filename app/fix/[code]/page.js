@@ -13,7 +13,7 @@ export async function generateMetadata({ params }) {
     };
   }
 
-  // Custom SEO for the monetized page
+  // Keep your custom SEO for the primary monetized page
   if (code === "0x80070422") {
     return {
       title: "Fix Windows Error 0x80070422 (Windows Update Disabled)",
@@ -54,47 +54,39 @@ export default async function FixPage({ params }) {
     );
   }
 
-  // For now, only 0x80070422 shows the special affiliate callout section.
-  // Everything else gets the "polished" structured guide below.
-  const showAffiliateCallout = code === "0x80070422";
+  const hasWhatItMeans = Boolean(fix.whatItMeans);
+  const hasTryFirst = Array.isArray(fix.tryFirst) && fix.tryFirst.length > 0;
+  const hasAdvanced = Array.isArray(fix.advanced) && fix.advanced.length > 0;
+
+  const hasScript =
+    fix.scriptSection &&
+    typeof fix.scriptSection === "object" &&
+    typeof fix.scriptSection.code === "string" &&
+    fix.scriptSection.code.trim().length > 0;
+
+  const hasAffiliate =
+    fix.affiliateCallout &&
+    typeof fix.affiliateCallout === "object" &&
+    typeof fix.affiliateCallout.href === "string" &&
+    fix.affiliateCallout.href.trim().length > 0 &&
+    typeof fix.affiliateCallout.ctaText === "string" &&
+    fix.affiliateCallout.ctaText.trim().length > 0;
+
+  const hasFaq = Array.isArray(fix.faq) && fix.faq.length > 0;
 
   return (
     <main className="container">
       <article className="article">
         <header className="articleHeader">
-          {code === "0x80070422" ? (
-            <>
-              <h1>How to Fix Windows Error 0x80070422</h1>
-
-              <p className="lead">
-                Windows error <strong>0x80070422</strong> usually appears when
-                the <strong>Windows Update</strong> service is disabled or not
-                running. This prevents updates, security patches, and feature
-                installs from completing successfully.
-              </p>
-
-              <p className="lead">
-                Start with the free steps below. If it still isn't fixed, use
-                the "If the error still persists" section near the bottom.
-              </p>
-            </>
-          ) : (
-            <>
-              <h1>{fix.title}</h1>
-              <p className="lead">{fix.description}</p>
-
-              {fix.whatItMeans ? (
-                <p className="lead">{fix.whatItMeans}</p>
-              ) : null}
-            </>
-          )}
+          <h1>{fix.title}</h1>
+          <p className="lead">{fix.description}</p>
+          {hasWhatItMeans ? <p className="lead">{fix.whatItMeans}</p> : null}
         </header>
 
-        {/* Method / steps section for ALL codes */}
         <section className="section">
           <h2>Try These Fixes First</h2>
 
-          {Array.isArray(fix.tryFirst) && fix.tryFirst.length > 0 ? (
+          {hasTryFirst ? (
             <ol className="steps">
               {fix.tryFirst.map((step, idx) => (
                 <li key={`tryfirst-${idx}`}>{step}</li>
@@ -112,7 +104,7 @@ export default async function FixPage({ params }) {
         <section className="section">
           <h2>Advanced Fixes</h2>
 
-          {Array.isArray(fix.advanced) && fix.advanced.length > 0 ? (
+          {hasAdvanced ? (
             <ol className="steps">
               {fix.advanced.map((step, idx) => (
                 <li key={`advanced-${idx}`}>{step}</li>
@@ -122,111 +114,67 @@ export default async function FixPage({ params }) {
             <ol className="steps">
               <li>Run: sfc /scannow (Command Prompt as Admin).</li>
               <li>Run: DISM /Online /Cleanup-Image /RestoreHealth</li>
-              <li>Try again after restarting your PC.</li>
+              <li>Restart your PC and try again.</li>
             </ol>
           )}
         </section>
 
-        {/* Keep the fully detailed reset script for 0x80070422 (for now) */}
-        {code === "0x80070422" ? (
+        {/* Optional script/code section (data-driven) */}
+        {hasScript ? (
           <section className="section">
-            <h2>Method 2: Reset Windows Update Components</h2>
+            <h2>{fix.scriptSection.title || "Commands to Try"}</h2>
 
-            <p>
-              If enabling the service didn't work, Windows Update components may
-              be stuck or corrupted. This reset is safe and commonly fixes{" "}
-              <strong>0x80070422</strong>.
-            </p>
+            {fix.scriptSection.intro ? <p>{fix.scriptSection.intro}</p> : null}
 
-            <ol className="steps">
-              <li>
-                Open <strong>Command Prompt</strong> as Administrator:
-                <ul>
-                  <li>
-                    Click Start and type <strong>cmd</strong>
-                  </li>
-                  <li>
-                    Right-click <strong>Command Prompt</strong> -&gt;{" "}
-                    <strong>Run as administrator</strong>
-                  </li>
-                </ul>
-              </li>
-              <li>Run these commands one at a time:</li>
-            </ol>
+            {fix.scriptSection.stepsIntro ? (
+              <p>{fix.scriptSection.stepsIntro}</p>
+            ) : null}
 
-            <pre className="codeBlock">{`net stop wuauserv
-net stop bits
-net stop cryptsvc
-net stop msiserver
+            <pre className="codeBlock">{fix.scriptSection.code}</pre>
 
-ren C:\\Windows\\SoftwareDistribution SoftwareDistribution.old
-ren C:\\Windows\\System32\\catroot2 catroot2.old
-
-net start wuauserv
-net start bits
-net start cryptsvc
-net start msiserver`}</pre>
-
-            <p>Restart your PC and try Windows Update again.</p>
+            {fix.scriptSection.outro ? <p>{fix.scriptSection.outro}</p> : null}
           </section>
         ) : null}
 
-        {/* Affiliate callout (0x80070422 only for now) */}
-        {showAffiliateCallout ? (
+        {/* Optional affiliate callout (data-driven) */}
+        {hasAffiliate ? (
           <section className="section callout">
-            <h2>If the Error Still Persists</h2>
+            <h2>{fix.affiliateCallout.title || "If the Error Still Persists"}</h2>
 
-            <p>
-              If system files or update components are damaged, manual steps may
-              not fully resolve <strong>{code}</strong>.
-            </p>
-
-            <p>
-              In that case, an automated Windows repair tool can scan for common
-              causes like broken update services and corrupted system files.
-            </p>
+            {Array.isArray(fix.affiliateCallout.body) ? (
+              fix.affiliateCallout.body.map((p, idx) => <p key={`body-${idx}`}>{p}</p>)
+            ) : fix.affiliateCallout.body ? (
+              <p>{fix.affiliateCallout.body}</p>
+            ) : null}
 
             <p className="cta">
               <strong>Recommended option:</strong>{" "}
               <a
-                href="YOUR_AFFILIATE_LINK_HERE"
+                href={fix.affiliateCallout.href}
                 target="_blank"
                 rel="nofollow sponsored"
               >
-                Fix Windows Update errors automatically with this repair tool
+                {fix.affiliateCallout.ctaText}
               </a>
             </p>
 
-            <p className="note">
-              (This link is a placeholder for now. We'll replace it with your
-              real affiliate link later.)
-            </p>
+            {fix.affiliateCallout.note ? (
+              <p className="note">{fix.affiliateCallout.note}</p>
+            ) : null}
           </section>
         ) : null}
 
-        {/* FAQ (0x80070422 only for now) */}
-        {code === "0x80070422" ? (
+        {/* Optional FAQ (data-driven) */}
+        {hasFaq ? (
           <section className="section">
             <h2>Frequently Asked Questions</h2>
 
-            <h3>What causes error 0x80070422?</h3>
-            <p>
-              Most commonly it's caused by the Windows Update service being
-              disabled. It can also be caused by corrupted update components or
-              system files.
-            </p>
-
-            <h3>Is error 0x80070422 dangerous?</h3>
-            <p>
-              The error itself isn't dangerous, but it can prevent security
-              updates from installing.
-            </p>
-
-            <h3>Can this error fix itself?</h3>
-            <p>
-              Sometimes a restart or re-enabling services fixes it. If it keeps
-              returning, use the steps above.
-            </p>
+            {fix.faq.map((item, idx) => (
+              <div key={`faq-${idx}`}>
+                <h3>{item.q}</h3>
+                <p>{item.a}</p>
+              </div>
+            ))}
           </section>
         ) : null}
       </article>
