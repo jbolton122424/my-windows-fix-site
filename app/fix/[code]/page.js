@@ -1,4 +1,5 @@
 // app/fix/[code]/page.js
+import { WINDOWS_REPAIR_AFFILIATE_LINK } from "../../affiliate";
 import { fixes } from "../../fixes";
 
 // Optional: If you want better SEO per page, Next can generate metadata per code.
@@ -150,7 +151,8 @@ export default async function FixPage({ params }) {
             <p className="cta">
               <strong>Recommended option:</strong>{" "}
               <a
-                href={fix.affiliateCallout.href}
+                href={WINDOWS_REPAIR_AFFILIATE_LINK}
+
                 target="_blank"
                 rel="nofollow sponsored"
               >
