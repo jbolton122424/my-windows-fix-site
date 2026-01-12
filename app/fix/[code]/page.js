@@ -54,54 +54,86 @@ export default async function FixPage({ params }) {
     );
   }
 
-  // ✅ Special “monetized” page layout/content for 0x80070422
-  if (code === "0x80070422") {
-    return (
-      <main className="container">
-        <article className="article">
-          <header className="articleHeader">
-            <h1>How to Fix Windows Error 0x80070422</h1>
+  // For now, only 0x80070422 shows the special affiliate callout section.
+  // Everything else gets the "polished" structured guide below.
+  const showAffiliateCallout = code === "0x80070422";
 
-            <p className="lead">
-              Windows error <strong>0x80070422</strong> usually appears when the{" "}
-              <strong>Windows Update</strong> service is disabled or not running.
-              This prevents updates, security patches, and feature installs from
-              completing successfully.
-            </p>
+  return (
+    <main className="container">
+      <article className="article">
+        <header className="articleHeader">
+          {code === "0x80070422" ? (
+            <>
+              <h1>How to Fix Windows Error 0x80070422</h1>
 
-            <p className="lead">
-              Start with the free steps below. If it still isn’t fixed, use the
-              “If the error still persists” section near the bottom.
-            </p>
-          </header>
+              <p className="lead">
+                Windows error <strong>0x80070422</strong> usually appears when
+                the <strong>Windows Update</strong> service is disabled or not
+                running. This prevents updates, security patches, and feature
+                installs from completing successfully.
+              </p>
 
-          <section className="section">
-            <h2>Method 1: Enable the Windows Update Service</h2>
+              <p className="lead">
+                Start with the free steps below. If it still isn't fixed, use
+                the "If the error still persists" section near the bottom.
+              </p>
+            </>
+          ) : (
+            <>
+              <h1>{fix.title}</h1>
+              <p className="lead">{fix.description}</p>
 
+              {fix.whatItMeans ? (
+                <p className="lead">{fix.whatItMeans}</p>
+              ) : null}
+            </>
+          )}
+        </header>
+
+        {/* Method / steps section for ALL codes */}
+        <section className="section">
+          <h2>Try These Fixes First</h2>
+
+          {Array.isArray(fix.tryFirst) && fix.tryFirst.length > 0 ? (
             <ol className="steps">
-              <li>
-                Press <strong>Windows + R</strong>, type{" "}
-                <code>services.msc</code>, and press Enter.
-              </li>
-              <li>
-                Find <strong>Windows Update</strong> in the list.
-              </li>
-              <li>
-                Double-click it. Set <strong>Startup type</strong> to{" "}
-                <strong>Automatic</strong>.
-              </li>
-              <li>
-                Click <strong>Start</strong>, then <strong>Apply</strong>.
-              </li>
-              <li>Restart your PC and try Windows Update again.</li>
+              {fix.tryFirst.map((step, idx) => (
+                <li key={`tryfirst-${idx}`}>{step}</li>
+              ))}
             </ol>
-          </section>
+          ) : (
+            <ol className="steps">
+              <li>Restart your PC and try again.</li>
+              <li>Run Windows Update troubleshooter (if relevant).</li>
+              <li>Check for pending updates and install them.</li>
+            </ol>
+          )}
+        </section>
 
+        <section className="section">
+          <h2>Advanced Fixes</h2>
+
+          {Array.isArray(fix.advanced) && fix.advanced.length > 0 ? (
+            <ol className="steps">
+              {fix.advanced.map((step, idx) => (
+                <li key={`advanced-${idx}`}>{step}</li>
+              ))}
+            </ol>
+          ) : (
+            <ol className="steps">
+              <li>Run: sfc /scannow (Command Prompt as Admin).</li>
+              <li>Run: DISM /Online /Cleanup-Image /RestoreHealth</li>
+              <li>Try again after restarting your PC.</li>
+            </ol>
+          )}
+        </section>
+
+        {/* Keep the fully detailed reset script for 0x80070422 (for now) */}
+        {code === "0x80070422" ? (
           <section className="section">
             <h2>Method 2: Reset Windows Update Components</h2>
 
             <p>
-              If enabling the service didn’t work, Windows Update components may
+              If enabling the service didn't work, Windows Update components may
               be stuck or corrupted. This reset is safe and commonly fixes{" "}
               <strong>0x80070422</strong>.
             </p>
@@ -110,9 +142,11 @@ export default async function FixPage({ params }) {
               <li>
                 Open <strong>Command Prompt</strong> as Administrator:
                 <ul>
-                  <li>Click Start and type <strong>cmd</strong></li>
                   <li>
-                    Right-click <strong>Command Prompt</strong> →{" "}
+                    Click Start and type <strong>cmd</strong>
+                  </li>
+                  <li>
+                    Right-click <strong>Command Prompt</strong> -&gt;{" "}
                     <strong>Run as administrator</strong>
                   </li>
                 </ul>
@@ -135,13 +169,16 @@ net start msiserver`}</pre>
 
             <p>Restart your PC and try Windows Update again.</p>
           </section>
+        ) : null}
 
+        {/* Affiliate callout (0x80070422 only for now) */}
+        {showAffiliateCallout ? (
           <section className="section callout">
             <h2>If the Error Still Persists</h2>
 
             <p>
               If system files or update components are damaged, manual steps may
-              not fully resolve <strong>0x80070422</strong>.
+              not fully resolve <strong>{code}</strong>.
             </p>
 
             <p>
@@ -161,24 +198,27 @@ net start msiserver`}</pre>
             </p>
 
             <p className="note">
-              (This link is a placeholder for now. We’ll replace it with your real
-              affiliate link later.)
+              (This link is a placeholder for now. We'll replace it with your
+              real affiliate link later.)
             </p>
           </section>
+        ) : null}
 
+        {/* FAQ (0x80070422 only for now) */}
+        {code === "0x80070422" ? (
           <section className="section">
             <h2>Frequently Asked Questions</h2>
 
             <h3>What causes error 0x80070422?</h3>
             <p>
-              Most commonly it’s caused by the Windows Update service being
+              Most commonly it's caused by the Windows Update service being
               disabled. It can also be caused by corrupted update components or
               system files.
             </p>
 
             <h3>Is error 0x80070422 dangerous?</h3>
             <p>
-              The error itself isn’t dangerous, but it can prevent security
+              The error itself isn't dangerous, but it can prevent security
               updates from installing.
             </p>
 
@@ -188,32 +228,7 @@ net start msiserver`}</pre>
               returning, use the steps above.
             </p>
           </section>
-        </article>
-      </main>
-    );
-  }
-
-  // ✅ Default page layout for all other error codes (for now)
-  return (
-    <main className="container">
-      <article className="article">
-        <header className="articleHeader">
-          <h1>{fix.title}</h1>
-          <p className="lead">{fix.description}</p>
-        </header>
-
-        <section className="section">
-          <h2>Quick Fix Checklist</h2>
-          <ol className="steps">
-            <li>Restart your PC and try the action again.</li>
-            <li>Run Windows Update troubleshooter (if relevant).</li>
-            <li>Check for pending updates and install them.</li>
-            <li>
-              If the error persists, we’ll expand this page with step-by-step
-              instructions.
-            </li>
-          </ol>
-        </section>
+        ) : null}
       </article>
     </main>
   );
