@@ -12,7 +12,7 @@ export const fixes = [
       "Run Windows Update again after enabling the service.",
     ],
     advanced: [
-      "Run the Windows Update Troubleshooter (Settings → System → Troubleshoot).",
+      "Run the Windows Update Troubleshooter (Settings -> System -> Troubleshoot).",
       "Run System File Checker: open Command Prompt (Admin) and run: sfc /scannow",
       "Run DISM repair: DISM /Online /Cleanup-Image /RestoreHealth",
     ],
@@ -26,10 +26,10 @@ export const fixes = [
     tryFirst: [
       "Restart your PC and try again.",
       "Temporarily disable third-party antivirus (if installed) and retry.",
-      "Run the update/installer as Administrator (right-click → Run as administrator).",
+      "Run the update/installer as Administrator (right-click -> Run as administrator).",
     ],
     advanced: [
-      "Run Windows Update Troubleshooter (Settings → System → Troubleshoot).",
+      "Run Windows Update Troubleshooter (Settings -> System -> Troubleshoot).",
       "Run System File Checker: sfc /scannow (Command Prompt as Admin).",
       "Reset Windows Update components (we can add the full script next).",
     ],
@@ -39,7 +39,7 @@ export const fixes = [
     title: "Fix 0x80072ee7",
     description: "Network connectivity or DNS-related Windows Update error.",
     whatItMeans:
-      "Windows can’t reach Microsoft update servers. This is commonly caused by DNS issues, proxy/VPN settings, or a broken network connection.",
+      "Windows can't reach Microsoft update servers. This is commonly caused by DNS issues, proxy/VPN settings, or a broken network connection.",
     tryFirst: [
       "Check that other websites load normally (confirm internet works).",
       "Restart your router/modem and your PC.",
@@ -59,7 +59,7 @@ export const fixes = [
       "This can happen when Windows Update components are damaged, missing, or blocked by system configuration or corruption.",
     tryFirst: [
       "Restart your PC and retry Windows Update.",
-      "Run Windows Update Troubleshooter (Settings → System → Troubleshoot).",
+      "Run Windows Update Troubleshooter (Settings -> System -> Troubleshoot).",
       "Check Services to confirm Windows Update is present and not disabled.",
     ],
     advanced: [
@@ -107,7 +107,7 @@ export const fixes = [
     title: "Fix 0x80072f8f",
     description: "SSL or TLS connection issue during Windows Update.",
     whatItMeans:
-      "Windows couldn’t establish a secure connection. This is often caused by incorrect system time, TLS settings, or security software interference.",
+      "Windows couldn't establish a secure connection. This is often caused by incorrect system time, TLS settings, or security software interference.",
     tryFirst: [
       "Confirm your PC date/time is correct and set to auto.",
       "Temporarily disable VPN/Proxy and retry.",
@@ -134,6 +134,23 @@ export const fixes = [
       "Run Windows Update Troubleshooter.",
       "Run: sfc /scannow",
       "Reset Windows Update components (we can add the full script next).",
+    ],
+  },
+  {
+    slug: "0x80070643",
+    title: "Fix 0x80070643",
+    description: "Install failed (MSI error) during Windows Update or app install.",
+    whatItMeans:
+      "This error often appears when a Windows Update or installer fails due to corrupted update components, a failing .NET/Windows Installer dependency, or system file corruption.",
+    tryFirst: [
+      "Restart your PC and try the update/installation again.",
+      "Run Windows Update again after temporarily disabling third-party antivirus (if installed).",
+      "If it's a specific app installer, right-click it and choose Run as administrator.",
+    ],
+    advanced: [
+      "Run Windows Update Troubleshooter (Settings -> System -> Troubleshoot).",
+      "Repair system files: open Command Prompt (Admin) and run: sfc /scannow",
+      "Run DISM repair: DISM /Online /Cleanup-Image /RestoreHealth",
     ],
   },
 ];
