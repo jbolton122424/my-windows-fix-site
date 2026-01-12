@@ -1,114 +1,220 @@
 // app/fix/[code]/page.js
-import { fixes } from "@/app/fixes";
+import { fixes } from "../../fixes";
 
-/**
- * SEO metadata per error code page
- */
+// Optional: If you want better SEO per page, Next can generate metadata per code.
 export async function generateMetadata({ params }) {
-  const { code: slug } = await params;
-  const fix = fixes.find((f) => f.slug === slug);
+  const { code } = await params;
+  const fix = fixes.find((f) => f.slug === code);
 
   if (!fix) {
     return {
-      title: "Fix not found | Windows Fix Guides",
-      description: "This Windows error code guide could not be found.",
+      title: "Fix not found",
+      description: "No guide found for this error code.",
     };
   }
 
+  // Custom SEO for the monetized page
+  if (code === "0x80070422") {
+    return {
+      title: "Fix Windows Error 0x80070422 (Windows Update Disabled)",
+      description:
+        "Step-by-step instructions to fix Windows error 0x80070422 by enabling Windows Update services and resetting update components.",
+    };
+  }
+
+  // Default SEO for other error codes
   return {
-    title: `${fix.title} | Windows Fix Guides`,
+    title: `${fix.title} (Step-by-step Fix)`,
     description: fix.description,
   };
 }
 
 export default async function FixPage({ params }) {
-  const { code: slug } = await params;
-  const fix = fixes.find((f) => f.slug === slug);
+  const { code } = await params; // IMPORTANT for Next.js 16 (params is a Promise)
+  const fix = fixes.find((f) => f.slug === code);
 
   if (!fix) {
     return (
-      <main className="container prose">
-        <h1>Page not found</h1>
-        <p>No guide found for this error code.</p>
+      <main className="container">
+        <article className="article">
+          <header className="articleHeader">
+            <h1>Page not found</h1>
+            <p className="lead">
+              No guide found for <strong>{code}</strong>.
+            </p>
+          </header>
+
+          <section className="section">
+            <p>
+              Try going back to the homepage and selecting a listed error code.
+            </p>
+          </section>
+        </article>
       </main>
     );
   }
 
-  // Light “defaults” so every page feels complete even if you haven’t customized it yet
-  const commonCause =
-    fix.whatItMeans ||
-    "This error is commonly caused by a Windows configuration or service issue.";
-  const timeToFix = "10–25 minutes";
-  const safeNote = "Yes — these steps use built-in Windows tools.";
+  // ✅ Special “monetized” page layout/content for 0x80070422
+  if (code === "0x80070422") {
+    return (
+      <main className="container">
+        <article className="article">
+          <header className="articleHeader">
+            <h1>How to Fix Windows Error 0x80070422</h1>
 
+            <p className="lead">
+              Windows error <strong>0x80070422</strong> usually appears when the{" "}
+              <strong>Windows Update</strong> service is disabled or not running.
+              This prevents updates, security patches, and feature installs from
+              completing successfully.
+            </p>
+
+            <p className="lead">
+              Start with the free steps below. If it still isn’t fixed, use the
+              “If the error still persists” section near the bottom.
+            </p>
+          </header>
+
+          <section className="section">
+            <h2>Method 1: Enable the Windows Update Service</h2>
+
+            <ol className="steps">
+              <li>
+                Press <strong>Windows + R</strong>, type{" "}
+                <code>services.msc</code>, and press Enter.
+              </li>
+              <li>
+                Find <strong>Windows Update</strong> in the list.
+              </li>
+              <li>
+                Double-click it. Set <strong>Startup type</strong> to{" "}
+                <strong>Automatic</strong>.
+              </li>
+              <li>
+                Click <strong>Start</strong>, then <strong>Apply</strong>.
+              </li>
+              <li>Restart your PC and try Windows Update again.</li>
+            </ol>
+          </section>
+
+          <section className="section">
+            <h2>Method 2: Reset Windows Update Components</h2>
+
+            <p>
+              If enabling the service didn’t work, Windows Update components may
+              be stuck or corrupted. This reset is safe and commonly fixes{" "}
+              <strong>0x80070422</strong>.
+            </p>
+
+            <ol className="steps">
+              <li>
+                Open <strong>Command Prompt</strong> as Administrator:
+                <ul>
+                  <li>Click Start and type <strong>cmd</strong></li>
+                  <li>
+                    Right-click <strong>Command Prompt</strong> →{" "}
+                    <strong>Run as administrator</strong>
+                  </li>
+                </ul>
+              </li>
+              <li>Run these commands one at a time:</li>
+            </ol>
+
+            <pre className="codeBlock">{`net stop wuauserv
+net stop bits
+net stop cryptsvc
+net stop msiserver
+
+ren C:\\Windows\\SoftwareDistribution SoftwareDistribution.old
+ren C:\\Windows\\System32\\catroot2 catroot2.old
+
+net start wuauserv
+net start bits
+net start cryptsvc
+net start msiserver`}</pre>
+
+            <p>Restart your PC and try Windows Update again.</p>
+          </section>
+
+          <section className="section callout">
+            <h2>If the Error Still Persists</h2>
+
+            <p>
+              If system files or update components are damaged, manual steps may
+              not fully resolve <strong>0x80070422</strong>.
+            </p>
+
+            <p>
+              In that case, an automated Windows repair tool can scan for common
+              causes like broken update services and corrupted system files.
+            </p>
+
+            <p className="cta">
+              <strong>Recommended option:</strong>{" "}
+              <a
+                href="YOUR_AFFILIATE_LINK_HERE"
+                target="_blank"
+                rel="nofollow sponsored"
+              >
+                Fix Windows Update errors automatically with this repair tool
+              </a>
+            </p>
+
+            <p className="note">
+              (This link is a placeholder for now. We’ll replace it with your real
+              affiliate link later.)
+            </p>
+          </section>
+
+          <section className="section">
+            <h2>Frequently Asked Questions</h2>
+
+            <h3>What causes error 0x80070422?</h3>
+            <p>
+              Most commonly it’s caused by the Windows Update service being
+              disabled. It can also be caused by corrupted update components or
+              system files.
+            </p>
+
+            <h3>Is error 0x80070422 dangerous?</h3>
+            <p>
+              The error itself isn’t dangerous, but it can prevent security
+              updates from installing.
+            </p>
+
+            <h3>Can this error fix itself?</h3>
+            <p>
+              Sometimes a restart or re-enabling services fixes it. If it keeps
+              returning, use the steps above.
+            </p>
+          </section>
+        </article>
+      </main>
+    );
+  }
+
+  // ✅ Default page layout for all other error codes (for now)
   return (
-    <main className="container prose">
-      <h1>{fix.title}</h1>
+    <main className="container">
+      <article className="article">
+        <header className="articleHeader">
+          <h1>{fix.title}</h1>
+          <p className="lead">{fix.description}</p>
+        </header>
 
-      <p>{fix.description}</p>
-
-      {/* Summary cards */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-          gap: 14,
-          marginTop: 18,
-          marginBottom: 12,
-        }}
-      >
-        <div className="card">
-          <strong>Most common cause</strong>
-          <p style={{ marginTop: 8 }}>{commonCause}</p>
-        </div>
-
-        <div className="card">
-          <strong>Time to fix</strong>
-          <p style={{ marginTop: 8 }}>{timeToFix}</p>
-        </div>
-
-        <div className="card">
-          <strong>Safe?</strong>
-          <p style={{ marginTop: 8 }}>{safeNote}</p>
-        </div>
-      </div>
-
-      <h2>What this error means</h2>
-      <p>{fix.whatItMeans}</p>
-
-      <h2>Try these fixes first</h2>
-      <ol>
-        {(fix.tryFirst || []).map((step, idx) => (
-          <li key={`${slug}-try-${idx}`}>{step}</li>
-        ))}
-      </ol>
-
-      <h2>Advanced steps</h2>
-      <ul>
-        {(fix.advanced || []).map((step, idx) => (
-          <li key={`${slug}-adv-${idx}`}>{step}</li>
-        ))}
-      </ul>
-
-      <h2>Still stuck?</h2>
-      <div className="card">
-        <p style={{ marginTop: 0 }}>
-          If none of the steps above worked, here are the next best actions:
-        </p>
-        <ul style={{ marginBottom: 0 }}>
-          <li>
-            Take note of the exact error code and what you were doing when it
-            appeared.
-          </li>
-          <li>
-            Restart your PC and try the same action again (updates/install).
-          </li>
-          <li>
-            If this is Windows Update, consider resetting Windows Update
-            components (we can add the full copy/paste script next).
-          </li>
-        </ul>
-      </div>
+        <section className="section">
+          <h2>Quick Fix Checklist</h2>
+          <ol className="steps">
+            <li>Restart your PC and try the action again.</li>
+            <li>Run Windows Update troubleshooter (if relevant).</li>
+            <li>Check for pending updates and install them.</li>
+            <li>
+              If the error persists, we’ll expand this page with step-by-step
+              instructions.
+            </li>
+          </ol>
+        </section>
+      </article>
     </main>
   );
 }
