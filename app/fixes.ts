@@ -181,7 +181,7 @@ net start msiserver`,
     ],
   },
 
-  // UPDATED: 0x80070643 now includes script + affiliate callout + FAQ, like your polished page
+  // UPDATED: 0x80070643 includes script + affiliate callout + FAQ
   {
     slug: "0x80070643",
     title: "Fix 0x80070643",
@@ -241,6 +241,61 @@ net start msiserver`,
       {
         q: "What should I try first for 0x80070643?",
         a: "Restart, temporarily disable third-party antivirus, then run the update/installer as Administrator. If it keeps failing, run SFC/DISM and reset Windows Update components.",
+      },
+    ],
+  },
+
+  // NEW: 0x800f081f (polished)
+  {
+    slug: "0x800f081f",
+    title: "Fix 0x800f081f",
+    description: "The source files could not be found (DISM/.NET repair failure).",
+    whatItMeans:
+      "Error 0x800f081f commonly happens when Windows cannot find the files needed to repair or install Windows features (often .NET Framework 3.5) or when DISM cannot access a valid repair source.",
+    tryFirst: [
+      "Restart your PC and try the action again.",
+      "Disconnect VPN/Proxy (if enabled) and try again.",
+      "Run Windows Update and install all pending updates, then retry.",
+    ],
+    advanced: [
+      "Run System File Checker (Command Prompt as Admin): sfc /scannow",
+      "Run DISM repair (Command Prompt as Admin): DISM /Online /Cleanup-Image /RestoreHealth",
+      "If installing .NET Framework 3.5, try enabling it via Windows Features (we can add exact steps).",
+    ],
+    scriptSection: {
+      title: "Repair Windows Image with DISM (Common Fix for 0x800f081f)",
+      intro:
+        "If 0x800f081f appears during DISM or feature installation, repairing the component store usually fixes it. Run these commands in Command Prompt (Admin).",
+      stepsIntro: "Run these commands one at a time:",
+      code: `DISM /Online /Cleanup-Image /StartComponentCleanup
+DISM /Online /Cleanup-Image /RestoreHealth
+sfc /scannow`,
+      outro:
+        "Restart your PC and try the feature install or update again. If DISM still reports missing source files, you may need to provide a Windows ISO as the repair source.",
+    },
+    affiliateCallout: {
+      title: "If the Error Still Persists",
+      body: [
+        "If the Windows component store is heavily corrupted, DISM may continue failing with 0x800f081f even after basic repairs.",
+        "An automated Windows repair tool can scan for common corruption issues and fix many problems without manual command-line steps.",
+      ],
+      ctaText: "Repair Windows system files automatically with this tool",
+      href: "YOUR_AFFILIATE_LINK_HERE",
+      note:
+        "(This link is a placeholder for now. We'll replace it with your real affiliate link later.)",
+    },
+    faq: [
+      {
+        q: "What causes error 0x800f081f?",
+        a: "Usually Windows cannot locate the repair source files required for DISM or optional feature installs. It can also be caused by a corrupted component store or missing/corrupted system files.",
+      },
+      {
+        q: "Does 0x800f081f relate to .NET Framework 3.5?",
+        a: "Often yes. Many people see 0x800f081f when enabling .NET Framework 3.5 because Windows can't download or locate the required files.",
+      },
+      {
+        q: "What is the best first command to try?",
+        a: "Start with DISM /Online /Cleanup-Image /RestoreHealth, then run sfc /scannow. If DISM still cannot find source files, you may need to specify a repair source (like a mounted Windows ISO).",
       },
     ],
   },
