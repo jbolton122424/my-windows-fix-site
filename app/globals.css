@@ -117,3 +117,45 @@ a:hover {
 main.container {
   width: 100%;
 }
+/* --- CTA Button (Style 1) --- */
+.ctaRow {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ctaLabel {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.ctaButton {
+  display: inline-block;
+  text-align: center;
+  padding: 12px 16px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 700;
+  line-height: 1.2;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.ctaButton:hover {
+  transform: translateY(-1px);
+}
+
+.ctaButton:active {
+  transform: translateY(0);
+}
+
+.ctaButton:focus {
+  outline: 2px solid rgba(0, 0, 0, 0.35);
+  outline-offset: 2px;
+}
+
+/* If your site already uses a dark background, this keeps it readable */
+.ctaButton {
+  background: #1f2937; /* dark slate */
+  color: #ffffff;
+}

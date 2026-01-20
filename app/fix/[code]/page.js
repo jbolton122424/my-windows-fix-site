@@ -1,6 +1,6 @@
 // app/fix/[code]/page.js
-import { WINDOWS_REPAIR_AFFILIATE_LINK } from "../../affiliate";
 import { fixes } from "../../fixes";
+import { WINDOWS_REPAIR_AFFILIATE_LINK } from "../../affiliate";
 
 // Optional: If you want better SEO per page, Next can generate metadata per code.
 export async function generateMetadata({ params }) {
@@ -14,7 +14,7 @@ export async function generateMetadata({ params }) {
     };
   }
 
-  // Keep your custom SEO for the primary monetized page
+  // Custom SEO for the monetized page
   if (code === "0x80070422") {
     return {
       title: "Fix Windows Error 0x80070422 (Windows Update Disabled)",
@@ -33,6 +33,22 @@ export async function generateMetadata({ params }) {
 export default async function FixPage({ params }) {
   const { code } = await params; // IMPORTANT for Next.js 16 (params is a Promise)
   const fix = fixes.find((f) => f.slug === code);
+
+  const hasScriptSection =
+    fix &&
+    fix.scriptSection &&
+    typeof fix.scriptSection === "object" &&
+    typeof fix.scriptSection.code === "string" &&
+    fix.scriptSection.code.trim().length > 0;
+
+  const hasAffiliateCallout =
+    fix &&
+    fix.affiliateCallout &&
+    typeof fix.affiliateCallout === "object" &&
+    typeof fix.affiliateCallout.ctaText === "string" &&
+    fix.affiliateCallout.ctaText.trim().length > 0;
+
+  const hasFaq = fix && Array.isArray(fix.faq) && fix.faq.length > 0;
 
   if (!fix) {
     return (
@@ -55,122 +71,224 @@ export default async function FixPage({ params }) {
     );
   }
 
-  const hasWhatItMeans = Boolean(fix.whatItMeans);
-  const hasTryFirst = Array.isArray(fix.tryFirst) && fix.tryFirst.length > 0;
-  const hasAdvanced = Array.isArray(fix.advanced) && fix.advanced.length > 0;
+  // ✅ Special “monetized” page layout/content for 0x80070422
+  if (code === "0x80070422") {
+    return (
+      <main className="container">
+        <article className="article">
+          <header className="articleHeader">
+            <h1>How to Fix Windows Error 0x80070422</h1>
 
-  const hasScript =
-    fix.scriptSection &&
-    typeof fix.scriptSection === "object" &&
-    typeof fix.scriptSection.code === "string" &&
-    fix.scriptSection.code.trim().length > 0;
+            <p className="lead">
+              Windows error <strong>0x80070422</strong> usually appears when the{" "}
+              <strong>Windows Update</strong> service is disabled or not running.
+              This prevents updates, security patches, and feature installs from
+              completing successfully.
+            </p>
 
-  const hasAffiliate =
-    fix.affiliateCallout &&
-    typeof fix.affiliateCallout === "object" &&
-    typeof fix.affiliateCallout.href === "string" &&
-    fix.affiliateCallout.href.trim().length > 0 &&
-    typeof fix.affiliateCallout.ctaText === "string" &&
-    fix.affiliateCallout.ctaText.trim().length > 0;
+            <p className="lead">
+              Start with the free steps below. If it still isn’t fixed, use the
+              “If the error still persists” section near the bottom.
+            </p>
+          </header>
 
-  const hasFaq = Array.isArray(fix.faq) && fix.faq.length > 0;
+          <section className="section">
+            <h2>Method 1: Enable the Windows Update Service</h2>
 
+            <ol className="steps">
+              <li>
+                Press <strong>Windows + R</strong>, type{" "}
+                <code>services.msc</code>, and press Enter.
+              </li>
+              <li>
+                Find <strong>Windows Update</strong> in the list.
+              </li>
+              <li>
+                Double-click it. Set <strong>Startup type</strong> to{" "}
+                <strong>Automatic</strong>.
+              </li>
+              <li>
+                Click <strong>Start</strong>, then <strong>Apply</strong>.
+              </li>
+              <li>Restart your PC and try Windows Update again.</li>
+            </ol>
+          </section>
+
+          <section className="section">
+            <h2>Method 2: Reset Windows Update Components</h2>
+
+            <p>
+              If enabling the service didn’t work, Windows Update components may
+              be stuck or corrupted. This reset is safe and commonly fixes{" "}
+              <strong>0x80070422</strong>.
+            </p>
+
+            <ol className="steps">
+              <li>
+                Open <strong>Command Prompt</strong> as Administrator:
+                <ul>
+                  <li>Click Start and type <strong>cmd</strong></li>
+                  <li>
+                    Right-click <strong>Command Prompt</strong> →{" "}
+                    <strong>Run as administrator</strong>
+                  </li>
+                </ul>
+              </li>
+              <li>Run these commands one at a time:</li>
+            </ol>
+
+            <pre className="codeBlock">{`net stop wuauserv
+net stop bits
+net stop cryptsvc
+net stop msiserver
+
+ren C:\\Windows\\SoftwareDistribution SoftwareDistribution.old
+ren C:\\Windows\\System32\\catroot2 catroot2.old
+
+net start wuauserv
+net start bits
+net start cryptsvc
+net start msiserver`}</pre>
+
+            <p>Restart your PC and try Windows Update again.</p>
+          </section>
+
+          <section className="section callout">
+            <h2>If the Error Still Persists</h2>
+
+            <p>
+              If system files or update components are damaged, manual steps may
+              not fully resolve <strong>0x80070422</strong>.
+            </p>
+
+            <p>
+              In that case, an automated Windows repair tool can scan for common
+              causes like broken update services and corrupted system files.
+            </p>
+
+            {/* ✅ Style 1 CTA */}
+            <div className="ctaRow">
+              <div className="ctaLabel">Recommended option</div>
+              <a
+                className="ctaButton"
+                href={WINDOWS_REPAIR_AFFILIATE_LINK}
+                target="_blank"
+                rel="nofollow sponsored noopener"
+              >
+                Fix Windows Update errors automatically
+              </a>
+              <p className="note">
+                Disclosure: We may earn a commission if you purchase through this
+                link (at no extra cost to you).
+              </p>
+            </div>
+          </section>
+
+          <section className="section">
+            <h2>Frequently Asked Questions</h2>
+
+            <h3>What causes error 0x80070422?</h3>
+            <p>
+              Most commonly it’s caused by the Windows Update service being
+              disabled. It can also be caused by corrupted update components or
+              system files.
+            </p>
+
+            <h3>Is error 0x80070422 dangerous?</h3>
+            <p>
+              The error itself isn’t dangerous, but it can prevent security
+              updates from installing.
+            </p>
+
+            <h3>Can this error fix itself?</h3>
+            <p>
+              Sometimes a restart or re-enabling services fixes it. If it keeps
+              returning, use the steps above.
+            </p>
+          </section>
+        </article>
+      </main>
+    );
+  }
+
+  // ✅ Default page layout for all other error codes
   return (
     <main className="container">
       <article className="article">
         <header className="articleHeader">
           <h1>{fix.title}</h1>
           <p className="lead">{fix.description}</p>
-          {hasWhatItMeans ? <p className="lead">{fix.whatItMeans}</p> : null}
         </header>
 
         <section className="section">
-          <h2>Try These Fixes First</h2>
-
-          {hasTryFirst ? (
-            <ol className="steps">
-              {fix.tryFirst.map((step, idx) => (
-                <li key={`tryfirst-${idx}`}>{step}</li>
-              ))}
-            </ol>
-          ) : (
-            <ol className="steps">
-              <li>Restart your PC and try again.</li>
-              <li>Run Windows Update troubleshooter (if relevant).</li>
-              <li>Check for pending updates and install them.</li>
-            </ol>
-          )}
+          <h2>What it means</h2>
+          <p>{fix.whatItMeans}</p>
         </section>
 
         <section className="section">
-          <h2>Advanced Fixes</h2>
-
-          {hasAdvanced ? (
-            <ol className="steps">
-              {fix.advanced.map((step, idx) => (
-                <li key={`advanced-${idx}`}>{step}</li>
-              ))}
-            </ol>
-          ) : (
-            <ol className="steps">
-              <li>Run: sfc /scannow (Command Prompt as Admin).</li>
-              <li>Run: DISM /Online /Cleanup-Image /RestoreHealth</li>
-              <li>Restart your PC and try again.</li>
-            </ol>
-          )}
+          <h2>Try this first</h2>
+          <ol className="steps">
+            {fix.tryFirst.map((item, idx) => (
+              <li key={`tryfirst-${idx}`}>{item}</li>
+            ))}
+          </ol>
         </section>
 
-        {/* Optional script/code section (data-driven) */}
-        {hasScript ? (
+        <section className="section">
+          <h2>Advanced steps</h2>
+          <ol className="steps">
+            {fix.advanced.map((item, idx) => (
+              <li key={`advanced-${idx}`}>{item}</li>
+            ))}
+          </ol>
+        </section>
+
+        {hasScriptSection ? (
           <section className="section">
             <h2>{fix.scriptSection.title || "Commands to Try"}</h2>
-
             {fix.scriptSection.intro ? <p>{fix.scriptSection.intro}</p> : null}
-
             {fix.scriptSection.stepsIntro ? (
               <p>{fix.scriptSection.stepsIntro}</p>
             ) : null}
-
             <pre className="codeBlock">{fix.scriptSection.code}</pre>
-
             {fix.scriptSection.outro ? <p>{fix.scriptSection.outro}</p> : null}
           </section>
         ) : null}
 
-        {/* Optional affiliate callout (data-driven) */}
-        {hasAffiliate ? (
+        {hasAffiliateCallout ? (
           <section className="section callout">
             <h2>{fix.affiliateCallout.title || "If the Error Still Persists"}</h2>
 
-            {Array.isArray(fix.affiliateCallout.body) ? (
-              fix.affiliateCallout.body.map((p, idx) => <p key={`body-${idx}`}>{p}</p>)
-            ) : fix.affiliateCallout.body ? (
-              <p>{fix.affiliateCallout.body}</p>
-            ) : null}
+            {Array.isArray(fix.affiliateCallout.body)
+              ? fix.affiliateCallout.body.map((p, idx) => (
+                  <p key={`body-${idx}`}>{p}</p>
+                ))
+              : fix.affiliateCallout.body
+              ? <p>{fix.affiliateCallout.body}</p>
+              : null}
 
-            <p className="cta">
-              <strong>Recommended option:</strong>{" "}
+            {/* ✅ Style 1 CTA */}
+            <div className="ctaRow">
+              <div className="ctaLabel">Recommended option</div>
               <a
+                className="ctaButton"
                 href={WINDOWS_REPAIR_AFFILIATE_LINK}
-
                 target="_blank"
-                rel="nofollow sponsored"
+                rel="nofollow sponsored noopener"
               >
                 {fix.affiliateCallout.ctaText}
               </a>
-            </p>
 
-            {fix.affiliateCallout.note ? (
-              <p className="note">{fix.affiliateCallout.note}</p>
-            ) : null}
+              {fix.affiliateCallout.note ? (
+                <p className="note">{fix.affiliateCallout.note}</p>
+              ) : null}
+            </div>
           </section>
         ) : null}
 
-        {/* Optional FAQ (data-driven) */}
         {hasFaq ? (
           <section className="section">
             <h2>Frequently Asked Questions</h2>
-
             {fix.faq.map((item, idx) => (
               <div key={`faq-${idx}`}>
                 <h3>{item.q}</h3>
