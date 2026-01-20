@@ -48,7 +48,9 @@ export default async function FixPage({ params }) {
     typeof fix.affiliateCallout.ctaText === "string" &&
     fix.affiliateCallout.ctaText.trim().length > 0;
 
-  const hasFaq = fix && Array.isArray(fix.faq) && fix.faq.length > 0;
+  // ✅ We no longer require per-page FAQ data to show an FAQ.
+  // We'll always show a universal FAQ for default pages.
+  const showUniversalFaq = true;
 
   if (!fix) {
     return (
@@ -286,15 +288,33 @@ net start msiserver`}</pre>
           </section>
         ) : null}
 
-        {hasFaq ? (
+        {/* ✅ Universal FAQ added to every default error page */}
+        {showUniversalFaq ? (
           <section className="section">
             <h2>Frequently Asked Questions</h2>
-            {fix.faq.map((item, idx) => (
-              <div key={`faq-${idx}`}>
-                <h3>{item.q}</h3>
-                <p>{item.a}</p>
-              </div>
-            ))}
+
+            <h3>What causes error {code}?</h3>
+            <p>
+              This error usually occurs when a required Windows component,
+              service, or system file is not working correctly. It may be caused
+              by corrupted system files, disabled services, failed updates, or
+              software conflicts.
+            </p>
+
+            <h3>Is error {code} dangerous?</h3>
+            <p>
+              The error itself is not dangerous, but it can prevent Windows
+              features, updates, or applications from working properly. If
+              ignored, it may lead to stability or security issues over time.
+            </p>
+
+            <h3>Can error {code} be fixed without reinstalling Windows?</h3>
+            <p>
+              Yes. In most cases, this error can be resolved using
+              troubleshooting steps such as repairing system files, enabling
+              required services, or using automated repair tools, without
+              needing to reinstall Windows.
+            </p>
           </section>
         ) : null}
       </article>
