@@ -521,7 +521,7 @@ net start msiserver`,
       ctaText: "Fix Windows install/update errors automatically with this repair tool",
       href: "YOUR_AFFILIATE_LINK_HERE",
       note:
-        "(This link is a placeholder for now. We'll replace it with your real affiliate link later.)",
+        "Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you).",
     },
     faq: [
       {
@@ -575,7 +575,7 @@ sfc /scannow`,
       ctaText: "Repair Windows system files automatically with this tool",
       href: "YOUR_AFFILIATE_LINK_HERE",
       note:
-        "(This link is a placeholder for now. We'll replace it with your real affiliate link later.)",
+        "Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you).",
     },
     faq: [
       {
@@ -628,7 +628,7 @@ sfc /scannow`,
       ctaText: "Fix Windows Update corruption automatically",
       href: "YOUR_AFFILIATE_LINK_HERE",
       note:
-        "(This link is a placeholder for now. We'll replace it with your real affiliate link later.)",
+        "Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you).",
     },
     faq: [
       {
