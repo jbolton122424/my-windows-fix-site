@@ -42,8 +42,9 @@ net start msiserver`,
         "An automated Windows repair tool can scan for common issues and repair them automatically.",
       ],
       ctaText: "Fix Windows Update errors automatically with this repair tool",
-      href: "YOUR_AFFILIATE_LINK_HERE",
-      note: "(Replace with your real affiliate link later.)",
+      href: "https://outebytech.com/W5mgq4g8",
+      note:
+        "Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you).",
     },
     faq: [
       {
@@ -106,8 +107,9 @@ sfc /scannow`,
         "An automated repair tool can scan for common Windows issues and fix them automatically.",
       ],
       ctaText: "Fix access denied and Windows Update errors automatically",
-      href: "YOUR_AFFILIATE_LINK_HERE",
-      note: "(Replace with your real affiliate link later.)",
+      href: "https://outebytech.com/W5mgq4g8",
+      note:
+        "Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you).",
     },
     faq: [
       {
@@ -160,8 +162,9 @@ netsh int ip reset`,
         "An automated Windows repair tool can scan for common configuration issues and repair them automatically.",
       ],
       ctaText: "Fix Windows network and update errors automatically",
-      href: "YOUR_AFFILIATE_LINK_HERE",
-      note: "(Replace with your real affiliate link later.)",
+      href: "https://outebytech.com/W5mgq4g8",
+      note:
+        "Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you).",
     },
     faq: [
       {
@@ -224,8 +227,9 @@ sfc /scannow`,
         "An automated repair tool can scan for common Windows component problems and repair them automatically.",
       ],
       ctaText: "Fix Windows Update component issues automatically",
-      href: "YOUR_AFFILIATE_LINK_HERE",
-      note: "(Replace with your real affiliate link later.)",
+      href: "https://outebytech.com/W5mgq4g8",
+      note:
+        "Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you).",
     },
     faq: [
       {
@@ -277,8 +281,9 @@ sfc /scannow`,
         "An automated repair tool can scan for system corruption and repair common Windows problems automatically.",
       ],
       ctaText: "Fix Windows file corruption automatically",
-      href: "YOUR_AFFILIATE_LINK_HERE",
-      note: "(Replace with your real affiliate link later.)",
+      href: "https://outebytech.com/W5mgq4g8",
+      note:
+        "Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you).",
     },
     faq: [
       {
@@ -341,8 +346,9 @@ sfc /scannow`,
         "An automated repair tool can scan and fix many common Windows issues automatically.",
       ],
       ctaText: "Fix Windows Update configuration issues automatically",
-      href: "YOUR_AFFILIATE_LINK_HERE",
-      note: "(Replace with your real affiliate link later.)",
+      href: "https://outebytech.com/W5mgq4g8",
+      note:
+        "Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you).",
     },
     faq: [
       {
@@ -395,8 +401,9 @@ sfc /scannow`,
         "An automated repair tool can scan for Windows configuration issues and repair common problems automatically.",
       ],
       ctaText: "Fix Windows secure connection errors automatically",
-      href: "YOUR_AFFILIATE_LINK_HERE",
-      note: "(Replace with your real affiliate link later.)",
+      href: "https://outebytech.com/W5mgq4g8",
+      note:
+        "Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you).",
     },
     faq: [
       {
@@ -458,8 +465,9 @@ sfc /scannow`,
         "An automated repair tool can scan for Windows issues and help stabilize updates.",
       ],
       ctaText: "Fix Windows Update issues automatically",
-      href: "YOUR_AFFILIATE_LINK_HERE",
-      note: "(Replace with your real affiliate link later.)",
+      href: "https://outebytech.com/W5mgq4g8",
+      note:
+        "Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you).",
     },
     faq: [
       {
@@ -519,7 +527,7 @@ net start msiserver`,
         "An automated Windows repair tool can scan for common causes like corrupted system files and broken update components.",
       ],
       ctaText: "Fix Windows install/update errors automatically with this repair tool",
-      href: "YOUR_AFFILIATE_LINK_HERE",
+      href: "https://outebytech.com/W5mgq4g8",
       note:
         "Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you).",
     },
@@ -573,7 +581,7 @@ sfc /scannow`,
         "An automated repair tool can scan for common corruption issues and fix many problems without manual command-line steps.",
       ],
       ctaText: "Repair Windows system files automatically with this tool",
-      href: "YOUR_AFFILIATE_LINK_HERE",
+      href: "https://outebytech.com/W5mgq4g8",
       note:
         "Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you).",
     },
@@ -626,7 +634,7 @@ sfc /scannow`,
         "An automated Windows repair tool can scan and fix deep system corruption automatically.",
       ],
       ctaText: "Fix Windows Update corruption automatically",
-      href: "YOUR_AFFILIATE_LINK_HERE",
+      href: "https://outebytech.com/W5mgq4g8",
       note:
         "Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you).",
     },
