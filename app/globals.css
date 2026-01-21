@@ -117,6 +117,7 @@ a:hover {
 main.container {
   width: 100%;
 }
+
 /* --- CTA Button (Style 1) --- */
 .ctaRow {
   margin-top: 14px;
@@ -158,4 +159,16 @@ main.container {
 .ctaButton {
   background: #1f2937; /* dark slate */
   color: #ffffff;
+}
+
+/* ✅ Outbyte required links under CTA button */
+.ctaLinks {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  opacity: 0.85;
+  line-height: 1.4;
+}
+
+.ctaLinks a {
+  text-decoration: underline;
 }

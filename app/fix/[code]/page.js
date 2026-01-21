@@ -2,6 +2,19 @@
 import { fixes } from "../../fixes";
 import { WINDOWS_REPAIR_AFFILIATE_LINK } from "../../affiliate";
 
+// ✅ Outbyte required policy/support links (Jenny request)
+const OUTBYTE_LICENSE_URL =
+  "https://outbyte.com/license-agreement/?_sid=MDaueUftfW&_gl=1*hy9nn9*_gcl_au*MjAyOTE0OTgxMS4xNzY5MDEzODM2*_ga*MTkzNDM5NTg0OS4xNzY5MDEzODM1*_ga_1EEJR9725E*czE3NjkwMTM4MzYkbzEkZzAkdDE3NjkwMTM4MzkkajU3JGwwJGgxNjkyMTU2ODc1";
+
+const OUTBYTE_PRIVACY_URL =
+  "https://outbyte.com/privacy-policy/?_sid=OEPkor2MUC&_gl=1*hy9nn9*_gcl_au*MjAyOTE0OTgxMS4xNzY5MDEzODM2*_ga*MTkzNDM5NTg0OS4xNzY5MDEzODM1*_ga_1EEJR9725E*czE3NjkwMTM4MzYkbzEkZzAkdDE3NjkwMTM4MzkkajU3JGwwJGgxNjkyMTU2ODc1";
+
+const OUTBYTE_CONTACT_URL =
+  "https://outbyte.com/support/contact/?_sid=OEPkor2MUC&_gl=1*1occp2y*_gcl_au*MjAyOTE0OTgxMS4xNzY5MDEzODM2*_ga*MTkzNDM5NTg0OS4xNzY5MDEzODM1*_ga_1EEJR9725E*czE3NjkwMTM4MzYkbzEkZzAkdDE3NjkwMTM4MzkkajU3JGwwJGgxNjkyMTU2ODc1";
+
+const OUTBYTE_UNINSTALL_URL =
+  "https://outbyte.com/support/how-to-uninstall/?program=Outbyte%252520PCRepair&_sid=OEPkor2MUC&_gl=1*1occp2y*_gcl_au*MjAyOTE0OTgxMS4xNzY5MDEzODM2*_ga*MTkzNDM5NTg0OS4xNzY5MDEzODM1*_ga_1EEJR9725E*czE3NjkwMTM4MzYkbzEkZzAkdDE3NjkwMTM4MzkkajU3JGwwJGgxNjkyMTU2ODc1";
+
 // Optional: If you want better SEO per page, Next can generate metadata per code.
 export async function generateMetadata({ params }) {
   const { code } = await params;
@@ -48,8 +61,7 @@ export default async function FixPage({ params }) {
     typeof fix.affiliateCallout.ctaText === "string" &&
     fix.affiliateCallout.ctaText.trim().length > 0;
 
-  // ✅ We no longer require per-page FAQ data to show an FAQ.
-  // We'll always show a universal FAQ for default pages.
+  // ✅ We show a universal FAQ for all default pages.
   const showUniversalFaq = true;
 
   if (!fix) {
@@ -179,6 +191,27 @@ net start msiserver`}</pre>
               >
                 Fix Windows Update errors automatically
               </a>
+
+              {/* ✅ Required links under CTA (Jenny request) */}
+              <p className="ctaLinks">
+                <a href={OUTBYTE_LICENSE_URL} target="_blank" rel="nofollow noopener">
+                  License Agreement
+                </a>
+                {" | "}
+                <a href={OUTBYTE_PRIVACY_URL} target="_blank" rel="nofollow noopener">
+                  Privacy Policy
+                </a>
+                {" | "}
+                <a href={OUTBYTE_CONTACT_URL} target="_blank" rel="nofollow noopener">
+                  Contact
+                </a>
+                {" | "}
+                <a href={OUTBYTE_UNINSTALL_URL} target="_blank" rel="nofollow noopener">
+                  How to Uninstall
+                </a>
+              </p>
+
+              {/* Disclosure is optional per Jenny */}
               <p className="note">
                 Disclosure: We may earn a commission if you purchase through this
                 link (at no extra cost to you).
@@ -280,6 +313,25 @@ net start msiserver`}</pre>
               >
                 {fix.affiliateCallout.ctaText}
               </a>
+
+              {/* ✅ Required links under CTA (Jenny request) */}
+              <p className="ctaLinks">
+                <a href={OUTBYTE_LICENSE_URL} target="_blank" rel="nofollow noopener">
+                  License Agreement
+                </a>
+                {" | "}
+                <a href={OUTBYTE_PRIVACY_URL} target="_blank" rel="nofollow noopener">
+                  Privacy Policy
+                </a>
+                {" | "}
+                <a href={OUTBYTE_CONTACT_URL} target="_blank" rel="nofollow noopener">
+                  Contact
+                </a>
+                {" | "}
+                <a href={OUTBYTE_UNINSTALL_URL} target="_blank" rel="nofollow noopener">
+                  How to Uninstall
+                </a>
+              </p>
 
               {fix.affiliateCallout.note ? (
                 <p className="note">{fix.affiliateCallout.note}</p>
