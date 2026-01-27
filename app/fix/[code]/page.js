@@ -304,6 +304,27 @@ net start msiserver`}</pre>
           </ol>
         </section>
 
+        <section className="section">
+  <h2>Related Windows Errors</h2>
+  <p>
+    If Windows Update is failing with corruption or component errors, these
+    related guides may also help:
+  </p>
+  <ul>
+    <li>
+      <a href="/fix/0x80070422">
+        Fix Windows error 0x80070422 (Windows Update disabled)
+      </a>
+    </li>
+    <li>
+      <a href="/fix/0x800f081f">
+        Fix Windows error 0x800f081f (Update component missing)
+      </a>
+    </li>
+  </ul>
+</section>
+
+
         {hasScriptSection ? (
           <section className="section">
             <h2>{fix.scriptSection.title || "Commands to Try"}</h2>
