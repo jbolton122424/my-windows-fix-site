@@ -385,6 +385,29 @@ net start msiserver`}</pre>
     </ul>
   </section>
 ) : null}
+{/* ✅ Internal links for 0x80070643 only (default layout) */}
+{code === "0x80070643" ? (
+  <section className="section">
+    <h2>Related Windows Errors</h2>
+    <p>
+      If Windows Update fails during installation or setup, these related guides
+      may also help:
+    </p>
+    <ul>
+      <li>
+        <a href="/fix/0x80073712">
+          Fix Windows error 0x80073712 (component store corruption)
+        </a>
+      </li>
+      <li>
+        <a href="/fix/0x800f081f">
+          Fix Windows error 0x800f081f (missing update components)
+        </a>
+      </li>
+    </ul>
+  </section>
+) : null}
+
 
 
         {hasAffiliateCallout ? (
