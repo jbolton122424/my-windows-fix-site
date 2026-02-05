@@ -407,6 +407,34 @@ net start msiserver`}</pre>
     </ul>
   </section>
 ) : null}
+{/* ✅ Internal links for 0x80070424 only (default layout) */}
+{code === "0x80070424" ? (
+  <section className="section">
+    <h2>Related Windows Errors</h2>
+    <p>
+      If Windows Update services are missing or not working properly, these
+      related guides may also help:
+    </p>
+    <ul>
+      <li>
+        <a href="/fix/0x80070422">
+          Fix Windows error 0x80070422 (Windows Update disabled)
+        </a>
+      </li>
+      <li>
+        <a href="/fix/0x80073712">
+          Fix Windows error 0x80073712 (component store corruption)
+        </a>
+      </li>
+      <li>
+        <a href="/fix/0x80070643">
+          Fix Windows error 0x80070643 (update installation failure)
+        </a>
+      </li>
+    </ul>
+  </section>
+) : null}
+
 
 
 
