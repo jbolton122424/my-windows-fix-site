@@ -434,7 +434,33 @@ net start msiserver`}</pre>
     </ul>
   </section>
 ) : null}
-
+{/* ✅ Internal links for 0x80072ee7 only (default layout) */}
+{code === "0x80072ee7" ? (
+  <section className="section">
+    <h2>Related Windows Errors</h2>
+    <p>
+      If Windows Update is failing due to network or connection issues, these
+      related guides may also help:
+    </p>
+    <ul>
+      <li>
+        <a href="/fix/0x80070422">
+          Fix Windows error 0x80070422 (Windows Update disabled)
+        </a>
+      </li>
+      <li>
+        <a href="/fix/0x80070424">
+          Fix Windows error 0x80070424 (Windows Update services missing)
+        </a>
+      </li>
+      <li>
+        <a href="/fix/0x80070020">
+          Fix Windows error 0x80070020 (file in use blocking update)
+        </a>
+      </li>
+    </ul>
+  </section>
+) : null}
 
 
 
