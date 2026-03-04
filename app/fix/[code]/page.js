@@ -305,29 +305,27 @@ net start msiserver`}</pre>
         </section>
 
         {/* ✅ Internal links for 0x800f081f only (default layout) */}
-{code === "0x800f081f" ? (
-  <section className="section">
-    <h2>Related Windows Errors</h2>
-    <p>
-      If Windows Update is failing due to missing or corrupted components, these
-      related guides may also help:
-    </p>
-    <ul>
-      <li>
-        <a href="/fix/0x80070422">
-          Fix Windows error 0x80070422 (Windows Update disabled)
-        </a>
-      </li>
-      <li>
-        <a href="/fix/0x80073712">
-          Fix Windows error 0x80073712 (component store corruption)
-        </a>
-      </li>
-    </ul>
-  </section>
-) : null}
-
-
+        {code === "0x800f081f" ? (
+          <section className="section">
+            <h2>Related Windows Errors</h2>
+            <p>
+              If Windows Update is failing due to missing or corrupted
+              components, these related guides may also help:
+            </p>
+            <ul>
+              <li>
+                <a href="/fix/0x80070422">
+                  Fix Windows error 0x80070422 (Windows Update disabled)
+                </a>
+              </li>
+              <li>
+                <a href="/fix/0x80073712">
+                  Fix Windows error 0x80073712 (component store corruption)
+                </a>
+              </li>
+            </ul>
+          </section>
+        ) : null}
 
         {hasScriptSection ? (
           <section className="section">
@@ -346,8 +344,8 @@ net start msiserver`}</pre>
           <section className="section">
             <h2>Related Windows Errors</h2>
             <p>
-              If you’re running into permission or update-related problems, these
-              guides may also help:
+              If you’re running into permission or update-related problems,
+              these guides may also help:
             </p>
             <ul>
               <li>
@@ -363,106 +361,108 @@ net start msiserver`}</pre>
             </ul>
           </section>
         ) : null}
+
         {/* ✅ Internal links for 0x80073712 only (default layout) */}
-{code === "0x80073712" ? (
-  <section className="section">
-    <h2>Related Windows Errors</h2>
-    <p>
-      If Windows Update is failing due to component store corruption, these
-      related guides may also help:
-    </p>
-    <ul>
-      <li>
-        <a href="/fix/0x80070422">
-          Fix Windows error 0x80070422 (Windows Update disabled)
-        </a>
-      </li>
-      <li>
-        <a href="/fix/0x800f081f">
-          Fix Windows error 0x800f081f (Update component missing)
-        </a>
-      </li>
-    </ul>
-  </section>
-) : null}
-{/* ✅ Internal links for 0x80070643 only (default layout) */}
-{code === "0x80070643" ? (
-  <section className="section">
-    <h2>Related Windows Errors</h2>
-    <p>
-      If Windows Update fails during installation or setup, these related guides
-      may also help:
-    </p>
-    <ul>
-      <li>
-        <a href="/fix/0x80073712">
-          Fix Windows error 0x80073712 (component store corruption)
-        </a>
-      </li>
-      <li>
-        <a href="/fix/0x800f081f">
-          Fix Windows error 0x800f081f (missing update components)
-        </a>
-      </li>
-    </ul>
-  </section>
-) : null}
-{/* ✅ Internal links for 0x80070424 only (default layout) */}
-{code === "0x80070424" ? (
-  <section className="section">
-    <h2>Related Windows Errors</h2>
-    <p>
-      If Windows Update services are missing or not working properly, these
-      related guides may also help:
-    </p>
-    <ul>
-      <li>
-        <a href="/fix/0x80070422">
-          Fix Windows error 0x80070422 (Windows Update disabled)
-        </a>
-      </li>
-      <li>
-        <a href="/fix/0x80073712">
-          Fix Windows error 0x80073712 (component store corruption)
-        </a>
-      </li>
-      <li>
-        <a href="/fix/0x80070643">
-          Fix Windows error 0x80070643 (update installation failure)
-        </a>
-      </li>
-    </ul>
-  </section>
-) : null}
-{/* ✅ Internal links for 0x80072ee7 only (default layout) */}
-{code === "0x80072ee7" ? (
-  <section className="section">
-    <h2>Related Windows Errors</h2>
-    <p>
-      If Windows Update is failing due to network or connection issues, these
-      related guides may also help:
-    </p>
-    <ul>
-      <li>
-        <a href="/fix/0x80070422">
-          Fix Windows error 0x80070422 (Windows Update disabled)
-        </a>
-      </li>
-      <li>
-        <a href="/fix/0x80070424">
-          Fix Windows error 0x80070424 (Windows Update services missing)
-        </a>
-      </li>
-      <li>
-        <a href="/fix/0x80070020">
-          Fix Windows error 0x80070020 (file in use blocking update)
-        </a>
-      </li>
-    </ul>
-  </section>
-) : null}
+        {code === "0x80073712" ? (
+          <section className="section">
+            <h2>Related Windows Errors</h2>
+            <p>
+              If Windows Update is failing due to component store corruption,
+              these related guides may also help:
+            </p>
+            <ul>
+              <li>
+                <a href="/fix/0x80070422">
+                  Fix Windows error 0x80070422 (Windows Update disabled)
+                </a>
+              </li>
+              <li>
+                <a href="/fix/0x800f081f">
+                  Fix Windows error 0x800f081f (Update component missing)
+                </a>
+              </li>
+            </ul>
+          </section>
+        ) : null}
 
+        {/* ✅ Internal links for 0x80070643 only (default layout) */}
+        {code === "0x80070643" ? (
+          <section className="section">
+            <h2>Related Windows Errors</h2>
+            <p>
+              If Windows Update fails during installation or setup, these related
+              guides may also help:
+            </p>
+            <ul>
+              <li>
+                <a href="/fix/0x80073712">
+                  Fix Windows error 0x80073712 (component store corruption)
+                </a>
+              </li>
+              <li>
+                <a href="/fix/0x800f081f">
+                  Fix Windows error 0x800f081f (missing update components)
+                </a>
+              </li>
+            </ul>
+          </section>
+        ) : null}
 
+        {/* ✅ Internal links for 0x80070424 only (default layout) */}
+        {code === "0x80070424" ? (
+          <section className="section">
+            <h2>Related Windows Errors</h2>
+            <p>
+              If Windows Update services are missing or not working properly,
+              these related guides may also help:
+            </p>
+            <ul>
+              <li>
+                <a href="/fix/0x80070422">
+                  Fix Windows error 0x80070422 (Windows Update disabled)
+                </a>
+              </li>
+              <li>
+                <a href="/fix/0x80073712">
+                  Fix Windows error 0x80073712 (component store corruption)
+                </a>
+              </li>
+              <li>
+                <a href="/fix/0x80070643">
+                  Fix Windows error 0x80070643 (update installation failure)
+                </a>
+              </li>
+            </ul>
+          </section>
+        ) : null}
+
+        {/* ✅ Internal links for 0x80072ee7 only (default layout) */}
+        {code === "0x80072ee7" ? (
+          <section className="section">
+            <h2>Related Windows Errors</h2>
+            <p>
+              If Windows Update is failing due to network or connection issues,
+              these related guides may also help:
+            </p>
+            <ul>
+              <li>
+                <a href="/fix/0x8024401c">
+                  Fix Windows error 0x8024401c (can’t connect to update services)
+                </a>
+              </li>
+              <li>
+                <a href="/fix/0x80070424">
+                  Fix Windows error 0x80070424 (Windows Update services missing)
+                </a>
+              </li>
+              <li>
+                <a href="/fix/0x80070422">
+                  Fix Windows error 0x80070422 (Windows Update disabled)
+                </a>
+              </li>
+            </ul>
+          </section>
+        ) : null}
 
         {hasAffiliateCallout ? (
           <section className="section callout">
