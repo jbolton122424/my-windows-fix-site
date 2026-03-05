@@ -83,8 +83,10 @@ export default async function FixPage({ params }) {
     typeof fix.affiliateCallout.ctaText === "string" &&
     fix.affiliateCallout.ctaText.trim().length > 0;
 
-  // ✅ Per-page affiliate link (falls back to the global link)
-  const affiliateHref = fix?.affiliateCallout?.href || WINDOWS_REPAIR_AFFILIATE_LINK;
+  // ✅ Affiliate link (use per-page if present, else global)
+  const affiliateHref =
+    (fix?.affiliateCallout?.href && String(fix.affiliateCallout.href).trim()) ||
+    WINDOWS_REPAIR_AFFILIATE_LINK;
 
   // Universal FAQ for all default pages
   const showUniversalFaq = true;
@@ -139,9 +141,7 @@ export default async function FixPage({ params }) {
                 Press <strong>Windows + R</strong>, type{" "}
                 <code>services.msc</code>, and press Enter.
               </li>
-              <li>
-                Find <strong>Windows Update</strong> in the list.
-              </li>
+              <li>Find <strong>Windows Update</strong> in the list.</li>
               <li>
                 Double-click it. Set <strong>Startup type</strong> to{" "}
                 <strong>Automatic</strong>.
@@ -192,7 +192,7 @@ net start msiserver`}</pre>
             <p>Restart your PC and try Windows Update again.</p>
           </section>
 
-          {/* ✅ Internal links for 0x80070422 */}
+          {/* ✅ Internal links for 0x80070422 (THIS is the block your live HTML is using) */}
           <section className="section">
             <h2>Related Windows Errors</h2>
             <p>
@@ -201,13 +201,13 @@ net start msiserver`}</pre>
             </p>
             <ul>
               <li>
-                <a href="/fix/0x80070005">
-                  Fix Windows error 0x80070005 (Access Denied)
+                <a href="/fix/0x80070424">
+                  Fix Windows error 0x80070424 (Windows Update service missing)
                 </a>
               </li>
               <li>
-                <a href="/fix/0x80070424">
-                  Fix Windows error 0x80070424 (Windows Update service missing)
+                <a href="/fix/0x80070005">
+                  Fix Windows error 0x80070005 (Access Denied)
                 </a>
               </li>
               <li>
@@ -231,7 +231,6 @@ net start msiserver`}</pre>
               causes like broken update services and corrupted system files.
             </p>
 
-            {/* ✅ Style 1 CTA */}
             <div className="ctaRow">
               <div className="ctaLabel">Recommended option</div>
               <a
@@ -245,7 +244,6 @@ net start msiserver`}</pre>
 
               <OutbytePolicyLinks />
 
-              {/* Disclosure is optional per Jenny */}
               <p className="note">
                 Disclosure: We may earn a commission if you purchase through this
                 link (at no extra cost to you).
@@ -312,29 +310,6 @@ net start msiserver`}</pre>
           </ol>
         </section>
 
-        {/* ✅ Internal links for 0x800f081f only (default layout) */}
-        {code === "0x800f081f" ? (
-          <section className="section">
-            <h2>Related Windows Errors</h2>
-            <p>
-              If Windows Update is failing due to missing or corrupted components,
-              these related guides may also help:
-            </p>
-            <ul>
-              <li>
-                <a href="/fix/0x80070422">
-                  Fix Windows error 0x80070422 (Windows Update disabled)
-                </a>
-              </li>
-              <li>
-                <a href="/fix/0x80073712">
-                  Fix Windows error 0x80073712 (component store corruption)
-                </a>
-              </li>
-            </ul>
-          </section>
-        ) : null}
-
         {hasScriptSection ? (
           <section className="section">
             <h2>{fix.scriptSection.title || "Commands to Try"}</h2>
@@ -344,131 +319,6 @@ net start msiserver`}</pre>
             ) : null}
             <pre className="codeBlock">{fix.scriptSection.code}</pre>
             {fix.scriptSection.outro ? <p>{fix.scriptSection.outro}</p> : null}
-          </section>
-        ) : null}
-
-        {/* ✅ Internal links for 0x80070005 only (default layout) */}
-        {code === "0x80070005" ? (
-          <section className="section">
-            <h2>Related Windows Errors</h2>
-            <p>
-              If you’re running into permission or update-related problems, these
-              guides may also help:
-            </p>
-            <ul>
-              <li>
-                <a href="/fix/0x80070422">
-                  Fix Windows error 0x80070422 (Windows Update disabled)
-                </a>
-              </li>
-              <li>
-                <a href="/fix/0x800f081f">
-                  Fix Windows error 0x800f081f (missing update components)
-                </a>
-              </li>
-            </ul>
-          </section>
-        ) : null}
-
-        {/* ✅ Internal links for 0x80073712 only (default layout) */}
-        {code === "0x80073712" ? (
-          <section className="section">
-            <h2>Related Windows Errors</h2>
-            <p>
-              If Windows Update is failing due to component store corruption, these
-              related guides may also help:
-            </p>
-            <ul>
-              <li>
-                <a href="/fix/0x80070422">
-                  Fix Windows error 0x80070422 (Windows Update disabled)
-                </a>
-              </li>
-              <li>
-                <a href="/fix/0x800f081f">
-                  Fix Windows error 0x800f081f (Update component missing)
-                </a>
-              </li>
-            </ul>
-          </section>
-        ) : null}
-
-        {/* ✅ Internal links for 0x80070643 only (default layout) */}
-        {code === "0x80070643" ? (
-          <section className="section">
-            <h2>Related Windows Errors</h2>
-            <p>
-              If Windows Update fails during installation or setup, these related
-              guides may also help:
-            </p>
-            <ul>
-              <li>
-                <a href="/fix/0x80073712">
-                  Fix Windows error 0x80073712 (component store corruption)
-                </a>
-              </li>
-              <li>
-                <a href="/fix/0x800f081f">
-                  Fix Windows error 0x800f081f (missing update components)
-                </a>
-              </li>
-            </ul>
-          </section>
-        ) : null}
-
-        {/* ✅ Internal links for 0x80070424 only (default layout) */}
-        {code === "0x80070424" ? (
-          <section className="section">
-            <h2>Related Windows Errors</h2>
-            <p>
-              If Windows Update services are missing or not working properly, these
-              related guides may also help:
-            </p>
-            <ul>
-              <li>
-                <a href="/fix/0x80070422">
-                  Fix Windows error 0x80070422 (Windows Update disabled)
-                </a>
-              </li>
-              <li>
-                <a href="/fix/0x80073712">
-                  Fix Windows error 0x80073712 (component store corruption)
-                </a>
-              </li>
-              <li>
-                <a href="/fix/0x80070643">
-                  Fix Windows error 0x80070643 (update installation failure)
-                </a>
-              </li>
-            </ul>
-          </section>
-        ) : null}
-
-        {/* ✅ Internal links for 0x80072ee7 only (default layout) */}
-        {code === "0x80072ee7" ? (
-          <section className="section">
-            <h2>Related Windows Errors</h2>
-            <p>
-              If Windows Update is failing due to network or connection issues,
-              these related guides may also help:
-            </p>
-            <ul>
-              <li>
-                <a href="/fix/0x80070422">
-                  Fix Windows error 0x80070422 (Windows Update disabled)
-                </a>
-              </li>
-              <li>
-                <a href="/fix/0x80070424">
-                  Fix Windows error 0x80070424 (Windows Update services missing)
-                </a>
-              </li>
-              <li>
-                <a href="/fix/0x80070020">
-                  Fix Windows error 0x80070020 (file in use blocking update)
-                </a>
-              </li>
-            </ul>
           </section>
         ) : null}
 
@@ -484,7 +334,6 @@ net start msiserver`}</pre>
               ? <p>{fix.affiliateCallout.body}</p>
               : null}
 
-            {/* ✅ Style 1 CTA */}
             <div className="ctaRow">
               <div className="ctaLabel">Recommended option</div>
               <a
@@ -505,30 +354,31 @@ net start msiserver`}</pre>
           </section>
         ) : null}
 
-        {/* ✅ Universal FAQ added to every default error page */}
         {showUniversalFaq ? (
           <section className="section">
             <h2>Frequently Asked Questions</h2>
 
             <h3>What causes error {code}?</h3>
             <p>
-              This error usually occurs when a required Windows component, service,
-              or system file is not working correctly. It may be caused by corrupted
-              system files, disabled services, failed updates, or software conflicts.
+              This error usually occurs when a required Windows component,
+              service, or system file is not working correctly. It may be caused
+              by corrupted system files, disabled services, failed updates, or
+              software conflicts.
             </p>
 
             <h3>Is error {code} dangerous?</h3>
             <p>
               The error itself is not dangerous, but it can prevent Windows
-              features, updates, or applications from working properly. If ignored,
-              it may lead to stability or security issues over time.
+              features, updates, or applications from working properly. If
+              ignored, it may lead to stability or security issues over time.
             </p>
 
             <h3>Can error {code} be fixed without reinstalling Windows?</h3>
             <p>
-              Yes. In most cases, this error can be resolved using troubleshooting
-              steps such as repairing system files, enabling required services, or
-              using automated repair tools, without needing to reinstall Windows.
+              Yes. In most cases, this error can be resolved using
+              troubleshooting steps such as repairing system files, enabling
+              required services, or using automated repair tools, without
+              needing to reinstall Windows.
             </p>
           </section>
         ) : null}
