@@ -1,6 +1,6 @@
 // app/fix/[code]/page.js
 import { fixes } from "../../fixes";
-import { WINDOWS_REPAIR_AFFILIATE_LINK, getAffiliateHref } from "../../affiliate";
+import { WINDOWS_REPAIR_AFFILIATE_LINK } from "../../affiliate";
 
 // ✅ Outbyte required policy/support links (Jenny request)
 const OUTBYTE_LICENSE_URL =
@@ -83,9 +83,8 @@ export default async function FixPage({ params }) {
     typeof fix.affiliateCallout.ctaText === "string" &&
     fix.affiliateCallout.ctaText.trim().length > 0;
 
-  // ✅ IMPORTANT: per-page tracking link (falls back to global)
-  const affiliateHref =
-    getAffiliateHref(fix?.affiliateCallout?.href) || WINDOWS_REPAIR_AFFILIATE_LINK;
+  // ✅ Per-page affiliate link (falls back to the global link)
+  const affiliateHref = fix?.affiliateCallout?.href || WINDOWS_REPAIR_AFFILIATE_LINK;
 
   // Universal FAQ for all default pages
   const showUniversalFaq = true;
