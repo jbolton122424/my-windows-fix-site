@@ -673,6 +673,72 @@ sfc /scannow`,
   },
 
   {
+    slug: "0x80070002",
+    title: "Fix 0x80070002",
+    description: "Windows Update can’t find required files (missing update files).",
+    whatItMeans:
+      "Error 0x80070002 usually means Windows Update can’t find a file it expects. Most often, the update download cache is incomplete/corrupted, or Windows Update components are out of sync.",
+    tryFirst: [
+      "Restart your PC and try Windows Update again.",
+      "Make sure your date/time is correct (Settings → Time & language → Date & time).",
+      "Run the Windows Update Troubleshooter (Settings → System → Troubleshoot → Other troubleshooters).",
+    ],
+    advanced: [
+      "Reset Windows Update components (clears the update download cache).",
+      "Repair system files (DISM + SFC).",
+      "Retry Windows Update, or try installing the update manually (optional).",
+    ],
+    scriptSection: {
+      title: "Reset Update Cache + Repair System Files",
+      intro:
+        "If Windows Update can’t find required files, resetting the update cache and repairing system files is the most reliable fix for 0x80070002.",
+      stepsIntro: "Run these commands one at a time (Command Prompt as Admin):",
+      code: `net stop wuauserv
+net stop bits
+net stop cryptsvc
+net stop msiserver
+
+ren C:\\Windows\\SoftwareDistribution SoftwareDistribution.old
+ren C:\\Windows\\System32\\catroot2 catroot2.old
+
+net start wuauserv
+net start bits
+net start cryptsvc
+net start msiserver
+
+DISM /Online /Cleanup-Image /RestoreHealth
+sfc /scannow`,
+      outro:
+        "Restart your PC after the commands finish, then run Windows Update again.",
+    },
+    affiliateCallout: {
+      title: "If the Error Still Persists",
+      body: [
+        "If the update cache keeps corrupting or system files are damaged, manual resets may not fully resolve repeated 0x80070002 failures.",
+        "An automated Windows repair tool can scan for common Windows problems and repair them automatically.",
+      ],
+      ctaText: "Fix Windows Update errors automatically",
+      href: "https://outebytech.com/W5mgq4g8",
+      note:
+        "Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you).",
+    },
+    faq: [
+      {
+        q: "What causes error 0x80070002?",
+        a: "Most commonly a corrupted or incomplete Windows Update download cache, or missing update files Windows expects.",
+      },
+      {
+        q: "Is 0x80070002 related to the SoftwareDistribution folder?",
+        a: "Yes. Resetting the SoftwareDistribution folder often fixes this error because it forces Windows to re-download update files.",
+      },
+      {
+        q: "What should I try first?",
+        a: "Restart your PC, run the Windows Update troubleshooter, then reset Windows Update components if it still fails.",
+      },
+    ],
+  },
+
+  {
     slug: "0x80073712",
     title: "Fix 0x80073712",
     description: "Windows Update failed due to component store corruption.",

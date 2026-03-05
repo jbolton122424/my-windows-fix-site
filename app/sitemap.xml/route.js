@@ -1,38 +1,39 @@
 // app/sitemap.xml/route.js
-export const dynamic = "force-dynamic";
-
 export async function GET() {
   const baseUrl = "https://fixerrorhelp.com";
 
-  const pages = [
-    "",
+  const routes = [
+    "/",
     "/fix/0x80070422",
     "/fix/0x80070005",
     "/fix/0x80072ee7",
+    "/fix/0x8024401c",
     "/fix/0x80070424",
     "/fix/0x80070570",
     "/fix/0x80070057",
     "/fix/0x80072f8f",
     "/fix/0x80070020",
+    "/fix/0x80070643",
+    "/fix/0x800f081f",
+    "/fix/0x80070002",
+    "/fix/0x80073712",
   ];
 
-  const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
+  const body = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${pages
+${routes
   .map(
-    (path) => `
-  <url>
+    (path) => `  <url>
     <loc>${baseUrl}${path}</loc>
-    <lastmod>${new Date().toISOString()}</lastmod>
   </url>`
   )
-  .join("")}
-</urlset>`;
+  .join("\n")}
+</urlset>
+`;
 
-  return new Response(sitemapXml, {
+  return new Response(body, {
     headers: {
       "Content-Type": "application/xml; charset=utf-8",
-      "Cache-Control": "no-store, max-age=0",
     },
   });
 }
