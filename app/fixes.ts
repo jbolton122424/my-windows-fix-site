@@ -3,7 +3,8 @@ export const fixes = [
   {
     slug: "0x80070422",
     title: "Fix 0x80070422",
-    description: "Windows Update service is disabled or not running.",
+    description:
+      "Windows Update service is disabled or not running. If the service is missing entirely, see error 0x80070424.",
     whatItMeans:
       "This error commonly appears when Windows Update is turned off or a required update service is stopped. In some cases, the Windows Update service may be missing entirely, which can trigger a related error: 0x80070424.",
     tryFirst: [
