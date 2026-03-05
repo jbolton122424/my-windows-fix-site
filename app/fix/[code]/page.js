@@ -1,6 +1,6 @@
 // app/fix/[code]/page.js
 import { fixes } from "../../fixes";
-import { WINDOWS_REPAIR_AFFILIATE_LINK } from "../../affiliate";
+import { WINDOWS_REPAIR_AFFILIATE_LINK, getAffiliateHref } from "../../affiliate";
 
 // ✅ Outbyte required policy/support links (Jenny request)
 const OUTBYTE_LICENSE_URL =
@@ -82,6 +82,10 @@ export default async function FixPage({ params }) {
     typeof fix.affiliateCallout === "object" &&
     typeof fix.affiliateCallout.ctaText === "string" &&
     fix.affiliateCallout.ctaText.trim().length > 0;
+
+  // ✅ IMPORTANT: per-page tracking link (falls back to global)
+  const affiliateHref =
+    getAffiliateHref(fix?.affiliateCallout?.href) || WINDOWS_REPAIR_AFFILIATE_LINK;
 
   // Universal FAQ for all default pages
   const showUniversalFaq = true;
@@ -203,6 +207,11 @@ net start msiserver`}</pre>
                 </a>
               </li>
               <li>
+                <a href="/fix/0x80070424">
+                  Fix Windows error 0x80070424 (Windows Update service missing)
+                </a>
+              </li>
+              <li>
                 <a href="/fix/0x800f081f">
                   Fix Windows error 0x800f081f (Update component missing)
                 </a>
@@ -228,7 +237,7 @@ net start msiserver`}</pre>
               <div className="ctaLabel">Recommended option</div>
               <a
                 className="ctaButton"
-                href={WINDOWS_REPAIR_AFFILIATE_LINK}
+                href={affiliateHref}
                 target="_blank"
                 rel="nofollow sponsored noopener"
               >
@@ -309,8 +318,8 @@ net start msiserver`}</pre>
           <section className="section">
             <h2>Related Windows Errors</h2>
             <p>
-              If Windows Update is failing due to missing or corrupted
-              components, these related guides may also help:
+              If Windows Update is failing due to missing or corrupted components,
+              these related guides may also help:
             </p>
             <ul>
               <li>
@@ -344,8 +353,8 @@ net start msiserver`}</pre>
           <section className="section">
             <h2>Related Windows Errors</h2>
             <p>
-              If you’re running into permission or update-related problems,
-              these guides may also help:
+              If you’re running into permission or update-related problems, these
+              guides may also help:
             </p>
             <ul>
               <li>
@@ -367,8 +376,8 @@ net start msiserver`}</pre>
           <section className="section">
             <h2>Related Windows Errors</h2>
             <p>
-              If Windows Update is failing due to component store corruption,
-              these related guides may also help:
+              If Windows Update is failing due to component store corruption, these
+              related guides may also help:
             </p>
             <ul>
               <li>
@@ -413,8 +422,8 @@ net start msiserver`}</pre>
           <section className="section">
             <h2>Related Windows Errors</h2>
             <p>
-              If Windows Update services are missing or not working properly,
-              these related guides may also help:
+              If Windows Update services are missing or not working properly, these
+              related guides may also help:
             </p>
             <ul>
               <li>
@@ -446,8 +455,8 @@ net start msiserver`}</pre>
             </p>
             <ul>
               <li>
-                <a href="/fix/0x8024401c">
-                  Fix Windows error 0x8024401c (can’t connect to update services)
+                <a href="/fix/0x80070422">
+                  Fix Windows error 0x80070422 (Windows Update disabled)
                 </a>
               </li>
               <li>
@@ -456,8 +465,8 @@ net start msiserver`}</pre>
                 </a>
               </li>
               <li>
-                <a href="/fix/0x80070422">
-                  Fix Windows error 0x80070422 (Windows Update disabled)
+                <a href="/fix/0x80070020">
+                  Fix Windows error 0x80070020 (file in use blocking update)
                 </a>
               </li>
             </ul>
@@ -481,7 +490,7 @@ net start msiserver`}</pre>
               <div className="ctaLabel">Recommended option</div>
               <a
                 className="ctaButton"
-                href={WINDOWS_REPAIR_AFFILIATE_LINK}
+                href={affiliateHref}
                 target="_blank"
                 rel="nofollow sponsored noopener"
               >
@@ -504,25 +513,23 @@ net start msiserver`}</pre>
 
             <h3>What causes error {code}?</h3>
             <p>
-              This error usually occurs when a required Windows component,
-              service, or system file is not working correctly. It may be caused
-              by corrupted system files, disabled services, failed updates, or
-              software conflicts.
+              This error usually occurs when a required Windows component, service,
+              or system file is not working correctly. It may be caused by corrupted
+              system files, disabled services, failed updates, or software conflicts.
             </p>
 
             <h3>Is error {code} dangerous?</h3>
             <p>
               The error itself is not dangerous, but it can prevent Windows
-              features, updates, or applications from working properly. If
-              ignored, it may lead to stability or security issues over time.
+              features, updates, or applications from working properly. If ignored,
+              it may lead to stability or security issues over time.
             </p>
 
             <h3>Can error {code} be fixed without reinstalling Windows?</h3>
             <p>
-              Yes. In most cases, this error can be resolved using
-              troubleshooting steps such as repairing system files, enabling
-              required services, or using automated repair tools, without
-              needing to reinstall Windows.
+              Yes. In most cases, this error can be resolved using troubleshooting
+              steps such as repairing system files, enabling required services, or
+              using automated repair tools, without needing to reinstall Windows.
             </p>
           </section>
         ) : null}
