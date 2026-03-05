@@ -5,7 +5,7 @@ export const fixes = [
     title: "Fix 0x80070422",
     description: "Windows Update service is disabled or not running.",
     whatItMeans:
-      "This error commonly appears when Windows Update is turned off or a required update service is stopped.",
+      "This error commonly appears when Windows Update is turned off or a required update service is stopped. In some cases, the Windows Update service may be missing entirely, which can trigger a related error: 0x80070424.",
     tryFirst: [
       "Restart your PC (quickly clears temporary service failures).",
       "Check that Windows Update is enabled in Services (services.msc).",
