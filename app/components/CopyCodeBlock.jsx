@@ -46,7 +46,6 @@ export default function CopyCodeBlock({
       background: "#fff",
       boxShadow: "0 6px 20px rgba(0,0,0,0.06)",
     },
-
     header: {
       display: "flex",
       justifyContent: "space-between",
@@ -55,12 +54,10 @@ export default function CopyCodeBlock({
       background: "#0f172a",
       color: "#fff",
     },
-
     title: {
       fontSize: 16,
       fontWeight: 700,
     },
-
     pill: {
       fontSize: 11,
       fontWeight: 700,
@@ -70,7 +67,6 @@ export default function CopyCodeBlock({
       borderRadius: 6,
       marginLeft: 10,
     },
-
     button: {
       padding: "10px 14px",
       fontSize: 14,
@@ -81,16 +77,13 @@ export default function CopyCodeBlock({
       background: "#fff",
       color: "#0f172a",
     },
-
     copied: {
       background: "#34d399",
       color: "#062016",
     },
-
     codeWrap: {
       background: "#070a12",
     },
-
     code: {
       margin: 0,
       padding: "18px",
@@ -101,7 +94,6 @@ export default function CopyCodeBlock({
       fontFamily:
         'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
     },
-
     footer: {
       padding: "10px 18px",
       fontSize: 13,
@@ -118,6 +110,7 @@ export default function CopyCodeBlock({
         </div>
 
         <button
+          type="button"
           onClick={handleCopy}
           style={{
             ...styles.button,
