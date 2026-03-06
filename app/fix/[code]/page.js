@@ -204,6 +204,30 @@ function OutbytePolicyLinks() {
   );
 }
 
+function QuickRepairCallout({ href }) {
+  return (
+    <section className="section callout">
+      <h2>Quick Repair Option</h2>
+      <p>
+        If you want the fastest option, you can use an automated repair tool to scan for
+        broken Windows services, corrupted files, and other issues that often trigger error codes.
+      </p>
+      <div className="ctaRow">
+        <div className="ctaLabel">Fastest option</div>
+        <a className="ctaButton" href={href} target="_blank" rel="nofollow sponsored noopener">
+          Scan and repair Windows automatically
+        </a>
+
+        <OutbytePolicyLinks />
+
+        <p className="note">
+          Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you).
+        </p>
+      </div>
+    </section>
+  );
+}
+
 function getRelatedFixes(currentCode, count = 3) {
   const list = Array.isArray(fixes) ? fixes : [];
   if (!list.length) return [];
@@ -391,6 +415,8 @@ export default async function FixPage({ params }) {
             </p>
           </header>
 
+          <QuickRepairCallout href={affiliateHref} />
+
           <section className="section">
             <h2>Method 1: Enable the Windows Update Service</h2>
 
@@ -527,6 +553,8 @@ net start msiserver`}
           <p className="lead">{fix.description}</p>
         </header>
 
+        <QuickRepairCallout href={affiliateHref} />
+
         <section className="section">
           <h2>What it means</h2>
           <p>{fix.whatItMeans}</p>
@@ -589,8 +617,8 @@ net start msiserver`}
             {Array.isArray(fix.affiliateCallout.body)
               ? fix.affiliateCallout.body.map((p, idx) => <p key={`body-${idx}`}>{p}</p>)
               : fix.affiliateCallout.body
-              ? <p>{fix.affiliateCallout.body}</p>
-              : null}
+                ? <p>{fix.affiliateCallout.body}</p>
+                : null}
 
             <div className="ctaRow">
               <div className="ctaLabel">Recommended option</div>
