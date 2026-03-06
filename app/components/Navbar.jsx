@@ -52,7 +52,7 @@ export default function Navbar() {
           </Link>
 
           <Link
-            href="/"
+            href="/#all-guides"
             style={{
               textDecoration: "none",
               color: "#111",

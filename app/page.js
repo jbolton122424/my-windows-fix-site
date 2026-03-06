@@ -217,7 +217,7 @@ export default function Home() {
         items={activationFixes}
       />
 
-      <section style={{ marginTop: 30 }}>
+      <section id="all-guides" style={{ marginTop: 30, scrollMarginTop: 90 }}>
         <h2>All Windows Error Fix Guides</h2>
         <p>
           Browse the full library of Windows error code guides below. Each page is built
