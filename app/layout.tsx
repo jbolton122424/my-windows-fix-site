@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   },
   description:
     "Step-by-step Windows error fix guides for update errors, install problems, activation issues, and command-based repairs.",
+  verification: {
+    google: "m-TGHFTygF0Ze-DoveiSYgW6yJkQTzM4dfr2eDODagU",
+  },
   alternates: {
     canonical: "/",
   },
