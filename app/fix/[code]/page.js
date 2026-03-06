@@ -246,6 +246,42 @@ function getRelatedFixes(currentCode, count = 3) {
   return out.slice(0, count);
 }
 
+function getContextualLinks(currentCode, count = 3) {
+  const related = getRelatedFixes(currentCode, count);
+  if (related.length >= count) return related;
+
+  const existing = new Set(related.map((item) => item.slug));
+  const extras = (Array.isArray(fixes) ? fixes : [])
+    .filter((f) => f?.slug && normalize(f.slug) !== normalize(currentCode) && !existing.has(f.slug))
+    .slice(0, count - related.length);
+
+  return [...related, ...extras].slice(0, count);
+}
+
+function ContextualInternalLinks({ currentSlug }) {
+  const links = getContextualLinks(currentSlug, 3);
+
+  if (!links.length) return null;
+
+  return (
+    <section className="section">
+      <h2>Other Windows Errors You May Also Need to Fix</h2>
+      <p>
+        Windows problems often come in clusters. If this error appeared during an update,
+        install, activation attempt, or repair process, these related guides may help you
+        troubleshoot the next issue faster.
+      </p>
+      <ul>
+        {links.map((fix) => (
+          <li key={`contextual-${fix.slug}`}>
+            <a href={`/fix/${fix.slug}`}>{fix.title || `Fix ${fix.slug}`}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 function findFixSmart(rawCode) {
   const requested = normalize(rawCode);
 
@@ -414,6 +450,8 @@ net start msiserver`}
             <p>Restart your PC and try Windows Update again.</p>
           </section>
 
+          <ContextualInternalLinks currentSlug={fix.slug} />
+
           <section className="section">
             <h2>Related Windows Errors</h2>
             <p>If Windows Update is failing with multiple errors, these related guides may also help:</p>
@@ -511,6 +549,8 @@ net start msiserver`}
               : null}
           </ol>
         </section>
+
+        <ContextualInternalLinks currentSlug={fix.slug} />
 
         {hasScriptSection ? (
           <section className="section">
