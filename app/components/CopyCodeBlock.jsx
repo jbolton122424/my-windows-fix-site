@@ -32,7 +32,7 @@ export default function CopyCodeBlock({
 
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
-    } catch (e) {
+    } catch {
       alert("Copy failed. Please manually copy the command.");
     }
   }
