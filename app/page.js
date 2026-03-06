@@ -34,6 +34,11 @@ function getFixesBySlugs(slugs) {
   return slugs.map(getFix).filter(Boolean);
 }
 
+function getHomepageCardTitle(fix) {
+  if (!fix?.slug) return "";
+  return `How to Fix Windows Error ${fix.slug}`;
+}
+
 function LinkCard({ fix, cta = "Open guide →" }) {
   return (
     <Link
@@ -56,7 +61,7 @@ function LinkCard({ fix, cta = "Open guide →" }) {
           lineHeight: 1.4,
         }}
       >
-        {fix.title}
+        {getHomepageCardTitle(fix)}
       </div>
 
       <div
@@ -244,6 +249,17 @@ export default function Home() {
               }}
             >
               <div style={{ fontWeight: 800, fontSize: 16 }}>{fix.slug}</div>
+
+              <div
+                style={{
+                  marginTop: 10,
+                  fontSize: 14,
+                  fontWeight: 700,
+                  lineHeight: 1.45,
+                }}
+              >
+                {getHomepageCardTitle(fix)}
+              </div>
 
               <div
                 style={{
