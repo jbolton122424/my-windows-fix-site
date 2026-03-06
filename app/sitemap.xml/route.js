@@ -1,39 +1,57 @@
-// app/sitemap.xml/route.js
-export async function GET() {
-  const baseUrl = "https://fixerrorhelp.com";
+import { fixes } from "@/app/fixes";
 
-  const routes = [
-    "/",
-    "/fix/0x80070422",
-    "/fix/0x80070005",
-    "/fix/0x80072ee7",
-    "/fix/0x8024401c",
-    "/fix/0x80070424",
-    "/fix/0x80070570",
-    "/fix/0x80070057",
-    "/fix/0x80072f8f",
-    "/fix/0x80070020",
-    "/fix/0x80070643",
-    "/fix/0x800f081f",
-    "/fix/0x80070002",
-    "/fix/0x80073712",
+function escapeXml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+export async function GET() {
+  const baseUrl = "https://fixerrorhelp.com".replace(/\/$/, "");
+  const lastmod = new Date().toISOString();
+
+  const staticPages = [
+    {
+      path: "",
+      changefreq: "weekly",
+      priority: "1.0",
+    },
   ];
 
-  const body = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${routes
-  .map(
-    (path) => `  <url>
-    <loc>${baseUrl}${path}</loc>
+  const staticUrls = staticPages.map(
+    (page) => `
+  <url>
+    <loc>${escapeXml(`${baseUrl}/${page.path}`)}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>${page.changefreq}</changefreq>
+    <priority>${page.priority}</priority>
   </url>`
-  )
-  .join("\n")}
-</urlset>
-`;
+  );
 
-  return new Response(body, {
+  const fixUrls = fixes.map(
+    (fix) => `
+  <url>
+    <loc>${escapeXml(`${baseUrl}/fix/${fix.slug}`)}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>`
+  );
+
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${[
+    ...staticUrls,
+    ...fixUrls,
+  ].join("")}
+</urlset>`;
+
+  return new Response(sitemap, {
     headers: {
       "Content-Type": "application/xml; charset=utf-8",
+      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
     },
   });
 }
