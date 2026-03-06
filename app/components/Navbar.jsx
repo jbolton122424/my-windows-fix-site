@@ -8,9 +8,6 @@ export default function Navbar() {
       style={{
         borderBottom: "1px solid rgba(0,0,0,0.08)",
         background: "#ffffff",
-        position: "sticky",
-        top: 0,
-        zIndex: 100,
       }}
     >
       <div
@@ -21,8 +18,6 @@ export default function Navbar() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          gap: 16,
-          flexWrap: "wrap",
         }}
       >
         <Link
@@ -39,37 +34,32 @@ export default function Navbar() {
         </Link>
 
         <nav
-          aria-label="Main navigation"
           style={{
             display: "flex",
-            alignItems: "center",
-            gap: 14,
-            flexWrap: "wrap",
+            gap: 18,
+            fontWeight: 700,
+            fontSize: 14,
           }}
         >
           <Link
             href="/"
             style={{
               textDecoration: "none",
-              color: "rgba(0,0,0,0.75)",
-              fontSize: 14,
-              fontWeight: 700,
+              color: "#111",
             }}
           >
             Home
           </Link>
 
-          <a
-            href="https://fixerrorhelp.com/#all-guides"
+          <Link
+            href="/"
             style={{
               textDecoration: "none",
-              color: "rgba(0,0,0,0.75)",
-              fontSize: 14,
-              fontWeight: 700,
+              color: "#111",
             }}
           >
             All Guides
-          </a>
+          </Link>
         </nav>
       </div>
     </header>
