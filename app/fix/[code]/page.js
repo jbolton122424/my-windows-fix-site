@@ -4,7 +4,6 @@ import { fixes } from "../../fixes";
 import { WINDOWS_REPAIR_AFFILIATE_LINK } from "../../affiliate";
 import { redirect } from "next/navigation";
 
-// ✅ Outbyte required policy/support links (Jenny request)
 const OUTBYTE_LICENSE_URL =
   "https://outbyte.com/license-agreement/?_sid=MDaueUftfW&_gl=1*hy9nn9*_gcl_au*MjAyOTE0OTgxMS4xNzY5MDEzODM2*_ga*MTkzNDM5NTg0OS4xNzY5MDEzODM5*_ga_1EEJR9725E*czE3NjkwMTM4MzYkbzEkZzAkdDE3NjkwMTM4MzkkajU3JGwwJGgxNjkyMTU2ODc1";
 
@@ -17,11 +16,20 @@ const OUTBYTE_CONTACT_URL =
 const OUTBYTE_UNINSTALL_URL =
   "https://outbyte.com/support/how-to-uninstall/?program=Outbyte%252520PCRepair&_sid=OEPkor2MUC&_gl=1*1occp2y*_gcl_au*MjAyOTE0OTgxMS4xNzY5MDEzODM6*_ga*MTkzNDM5NTg0OS4xNzY5MDEzODM9*_ga_1EEJR9725E*czE3NjkwMTM4MzYkbzEkZzAkdDE3NjkwMTM4MzkkajU3JGwwJGgxNjkyMTU2ODc1";
 
-// ✅ Used for absolute URLs in JSON-LD breadcrumbs and metadata
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://fixerrorhelp.com").replace(
   /\/$/,
   ""
 );
+
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return (Array.isArray(fixes) ? fixes : [])
+    .filter((fix) => fix?.slug)
+    .map((fix) => ({
+      code: fix.slug,
+    }));
+}
 
 function normalize(raw) {
   try {
@@ -109,8 +117,8 @@ function BreadcrumbJsonLd({ code, titleForCrumb }) {
   );
 }
 
-export async function generateMetadata({ params }) {
-  const { code } = await params;
+export function generateMetadata({ params }) {
+  const { code } = params;
   const requested = normalize(code);
 
   const candidates = [
@@ -241,8 +249,8 @@ function findFixSmart(rawCode) {
   return { fix, requested };
 }
 
-export default async function FixPage({ params }) {
-  const { code } = await params;
+export default function FixPage({ params }) {
+  const { code } = params;
   const { fix, requested } = findFixSmart(code);
 
   if (fix) {
