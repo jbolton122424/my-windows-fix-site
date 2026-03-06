@@ -117,8 +117,8 @@ function BreadcrumbJsonLd({ code, titleForCrumb }) {
   );
 }
 
-export function generateMetadata({ params }) {
-  const { code } = params;
+export async function generateMetadata({ params }) {
+  const { code } = await params;
   const requested = normalize(code);
 
   const candidates = [
@@ -210,7 +210,9 @@ function getRelatedFixes(currentCode, count = 3) {
 
   const idx = list.findIndex((f) => normalize(f?.slug) === normalize(currentCode));
   if (idx === -1) {
-    return list.filter((f) => f?.slug && normalize(f.slug) !== normalize(currentCode)).slice(0, count);
+    return list
+      .filter((f) => f?.slug && normalize(f.slug) !== normalize(currentCode))
+      .slice(0, count);
   }
 
   const out = [];
@@ -220,12 +222,20 @@ function getRelatedFixes(currentCode, count = 3) {
     const plus = list[(idx + step) % list.length];
     const minus = list[(idx - step + list.length) % list.length];
 
-    if (plus?.slug && normalize(plus.slug) !== normalize(currentCode) && !out.some((x) => x.slug === plus.slug)) {
+    if (
+      plus?.slug &&
+      normalize(plus.slug) !== normalize(currentCode) &&
+      !out.some((x) => x.slug === plus.slug)
+    ) {
       out.push(plus);
       if (out.length >= count) break;
     }
 
-    if (minus?.slug && normalize(minus.slug) !== normalize(currentCode) && !out.some((x) => x.slug === minus.slug)) {
+    if (
+      minus?.slug &&
+      normalize(minus.slug) !== normalize(currentCode) &&
+      !out.some((x) => x.slug === minus.slug)
+    ) {
       out.push(minus);
       if (out.length >= count) break;
     }
@@ -249,8 +259,8 @@ function findFixSmart(rawCode) {
   return { fix, requested };
 }
 
-export default function FixPage({ params }) {
-  const { code } = params;
+export default async function FixPage({ params }) {
+  const { code } = await params;
   const { fix, requested } = findFixSmart(code);
 
   if (fix) {
