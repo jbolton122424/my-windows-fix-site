@@ -183,23 +183,111 @@ export async function generateMetadata({ params }) {
   };
 }
 
-function getIssuePhrase(fix) {
+function getFixCategory(fix) {
   const source = `${fix?.title || ""} ${fix?.description || ""} ${fix?.whatItMeans || ""}`.toLowerCase();
 
-  if (source.includes("activation") || source.includes("license")) {
-    return "Windows activation problems";
+  if (source.includes("activation") || source.includes("license") || source.includes("kms")) {
+    return "activation";
   }
-  if (source.includes("update")) return "Windows Update problems";
-  if (source.includes("store")) return "Microsoft Store problems";
-  if (source.includes("network") || source.includes("internet") || source.includes("connection")) {
-    return "Windows network problems";
+
+  if (
+    source.includes("windows update") ||
+    source.includes("update service") ||
+    source.includes("update cache") ||
+    source.includes("bits") ||
+    source.includes("servicing") ||
+    source.includes("component store")
+  ) {
+    return "update";
   }
-  if (source.includes("dll") || source.includes("module") || source.includes("missing")) {
-    return "missing Windows file issues";
+
+  if (source.includes("store") || source.includes("wsreset")) {
+    return "store";
   }
-  if (source.includes("install") || source.includes("installer")) {
-    return "Windows install problems";
+
+  if (
+    source.includes("outlook") ||
+    source.includes("mail server") ||
+    source.includes("pst") ||
+    source.includes("ost") ||
+    source.includes("email")
+  ) {
+    return "outlook";
   }
+
+  if (
+    source.includes("network") ||
+    source.includes("internet") ||
+    source.includes("dns") ||
+    source.includes("proxy") ||
+    source.includes("vpn") ||
+    source.includes("winsock") ||
+    source.includes("server failed") ||
+    source.includes("connection")
+  ) {
+    return "network";
+  }
+
+  if (source.includes("driver") || source.includes("upgrade") || source.includes("feature update")) {
+    return "upgrade";
+  }
+
+  if (
+    source.includes("install failed") ||
+    source.includes("installer") ||
+    source.includes("installation") ||
+    source.includes("msi")
+  ) {
+    return "install";
+  }
+
+  if (
+    source.includes("dll") ||
+    source.includes("module") ||
+    source.includes("missing") ||
+    source.includes("rpc") ||
+    source.includes("class not registered") ||
+    source.includes("interface")
+  ) {
+    return "system";
+  }
+
+  return "general";
+}
+
+function getCategoryLabel(category) {
+  switch (category) {
+    case "update":
+      return "Windows Update";
+    case "activation":
+      return "Activation";
+    case "store":
+      return "Microsoft Store";
+    case "network":
+      return "Network";
+    case "outlook":
+      return "Outlook";
+    case "upgrade":
+      return "Upgrade and driver";
+    case "install":
+      return "Install";
+    case "system":
+      return "System file and component";
+    default:
+      return "Windows";
+  }
+}
+
+function getIssuePhrase(fix) {
+  const category = getFixCategory(fix);
+
+  if (category === "activation") return "Windows activation problems";
+  if (category === "update") return "Windows Update problems";
+  if (category === "store") return "Microsoft Store problems";
+  if (category === "network") return "Windows network problems";
+  if (category === "install") return "Windows install problems";
+  if (category === "system") return "missing Windows file issues";
+  if (category === "upgrade") return "Windows upgrade problems";
 
   return "common Windows problems";
 }
@@ -209,22 +297,15 @@ function getTopCtaText(fix) {
 }
 
 function getBottomCtaText(fix) {
-  const source = `${fix?.title || ""} ${fix?.description || ""} ${fix?.whatItMeans || ""}`.toLowerCase();
+  const category = getFixCategory(fix);
 
-  if (source.includes("activation") || source.includes("license")) {
-    return "Repair Windows activation issues automatically";
-  }
-  if (source.includes("update")) return "Fix Windows Update errors automatically";
-  if (source.includes("store")) return "Fix Microsoft Store errors automatically";
-  if (source.includes("network") || source.includes("internet") || source.includes("connection")) {
-    return "Repair Windows network issues automatically";
-  }
-  if (source.includes("dll") || source.includes("module") || source.includes("missing")) {
-    return "Fix missing Windows file issues automatically";
-  }
-  if (source.includes("install") || source.includes("installer")) {
-    return "Repair Windows install issues automatically";
-  }
+  if (category === "activation") return "Repair Windows activation issues automatically";
+  if (category === "update") return "Fix Windows Update errors automatically";
+  if (category === "store") return "Fix Microsoft Store errors automatically";
+  if (category === "network") return "Repair Windows network issues automatically";
+  if (category === "install") return "Repair Windows install issues automatically";
+  if (category === "system") return "Fix missing Windows file issues automatically";
+  if (category === "upgrade") return "Fix Windows upgrade issues automatically";
 
   return `Repair Windows issues linked to ${fix?.slug || "this error"}`;
 }
@@ -265,6 +346,148 @@ function getBottomBodyParagraphs(fix) {
     `If ${fix?.slug || "this error"} is still appearing after the steps above, the problem may involve deeper system corruption, broken services, or missing Windows components.`,
     "An automated repair scan can check for those issues and may save time before you continue with more manual troubleshooting.",
   ];
+}
+
+function tokenizeFixText(fix) {
+  const source = `${fix?.title || ""} ${fix?.description || ""} ${fix?.whatItMeans || ""}`.toLowerCase();
+
+  return Array.from(
+    new Set(
+      source
+        .replace(/0x[a-f0-9]+/gi, " ")
+        .replace(/[^a-z0-9\s]/g, " ")
+        .split(/\s+/)
+        .filter((word) => word.length >= 4)
+        .filter((word) => !["windows", "error", "common", "during", "caused", "usually", "repair"].includes(word))
+    )
+  );
+}
+
+function scoreFixRelation(currentFix, candidateFix) {
+  if (!currentFix || !candidateFix) return -1;
+  if (normalize(currentFix.slug) === normalize(candidateFix.slug)) return -1;
+
+  let score = 0;
+
+  const currentCategory = getFixCategory(currentFix);
+  const candidateCategory = getFixCategory(candidateFix);
+
+  if (currentCategory === candidateCategory) {
+    score += 100;
+  }
+
+  const currentText = `${currentFix?.title || ""} ${currentFix?.description || ""} ${currentFix?.whatItMeans || ""}`.toLowerCase();
+  const candidateText = `${candidateFix?.title || ""} ${candidateFix?.description || ""} ${candidateFix?.whatItMeans || ""}`.toLowerCase();
+
+  const currentTokens = tokenizeFixText(currentFix);
+  const candidateTokens = tokenizeFixText(candidateFix);
+
+  currentTokens.forEach((token) => {
+    if (candidateTokens.includes(token)) {
+      score += 12;
+    }
+  });
+
+  if (currentText.includes("windows update") && candidateText.includes("windows update")) score += 25;
+  if (currentText.includes("activation") && candidateText.includes("activation")) score += 25;
+  if (currentText.includes("store") && candidateText.includes("store")) score += 25;
+  if (currentText.includes("outlook") && candidateText.includes("outlook")) score += 25;
+  if (currentText.includes("driver") && candidateText.includes("driver")) score += 15;
+  if (currentText.includes("network") && candidateText.includes("network")) score += 20;
+  if (currentText.includes("proxy") && candidateText.includes("proxy")) score += 12;
+  if (currentText.includes("vpn") && candidateText.includes("vpn")) score += 12;
+  if (currentText.includes("dns") && candidateText.includes("dns")) score += 12;
+  if (currentText.includes("winsock") && candidateText.includes("winsock")) score += 12;
+  if (currentText.includes("softwaredistribution") && candidateText.includes("softwaredistribution")) score += 15;
+  if (currentText.includes("component store") && candidateText.includes("component store")) score += 15;
+  if (currentText.includes("dism") && candidateText.includes("dism")) score += 10;
+  if (currentText.includes("sfc") && candidateText.includes("sfc")) score += 10;
+  if (currentText.includes("bits") && candidateText.includes("bits")) score += 12;
+  if (currentText.includes("license") && candidateText.includes("license")) score += 15;
+  if (currentText.includes("server") && candidateText.includes("server")) score += 8;
+
+  return score;
+}
+
+function getRelatedFixes(currentFix, count = 3) {
+  const list = Array.isArray(fixes) ? fixes : [];
+  if (!list.length || !currentFix?.slug) return [];
+
+  const scored = list
+    .filter((f) => f?.slug && normalize(f.slug) !== normalize(currentFix.slug))
+    .map((f) => ({
+      fix: f,
+      score: scoreFixRelation(currentFix, f),
+    }))
+    .sort((a, b) => b.score - a.score);
+
+  const topMatches = scored.slice(0, count).map((item) => item.fix);
+
+  if (topMatches.length >= count) {
+    return topMatches;
+  }
+
+  const existing = new Set(topMatches.map((item) => item.slug));
+  const fallback = list
+    .filter((f) => f?.slug && normalize(f.slug) !== normalize(currentFix.slug) && !existing.has(f.slug))
+    .slice(0, count - topMatches.length);
+
+  return [...topMatches, ...fallback].slice(0, count);
+}
+
+function getContextualLinks(currentFix, count = 3) {
+  return getRelatedFixes(currentFix, count);
+}
+
+function getContextualSectionCopy(fix) {
+  const category = getFixCategory(fix);
+  const label = getCategoryLabel(category);
+
+  if (category === "update") {
+    return {
+      heading: "Related Windows Update Errors",
+      intro:
+        "Windows Update problems often appear in clusters. These related update and servicing guides may help you troubleshoot the next issue faster.",
+    };
+  }
+
+  if (category === "activation") {
+    return {
+      heading: "Related Activation Errors",
+      intro:
+        "Activation problems often overlap with licensing, edition, and connectivity issues. These related activation guides may help you narrow down the cause faster.",
+    };
+  }
+
+  if (category === "store") {
+    return {
+      heading: "Related Microsoft Store Errors",
+      intro:
+        "Microsoft Store failures often share the same cache, sign-in, and component issues. These related Store guides may help if more than one app or download is failing.",
+    };
+  }
+
+  if (category === "network") {
+    return {
+      heading: "Related Network Errors",
+      intro:
+        "Windows network problems often overlap with DNS, proxy, VPN, and connectivity issues. These related guides may help if the connection problem keeps returning.",
+    };
+  }
+
+  if (category === "outlook") {
+    return {
+      heading: "Related Outlook Errors",
+      intro:
+        "Outlook send/receive problems often overlap with server settings, timeouts, and Windows networking issues. These related guides may help if mail keeps failing.",
+    };
+  }
+
+  return {
+    heading: `Other ${label} Errors You May Also Need to Fix`,
+    intro:
+      "Windows problems often come in clusters. These related guides may help you troubleshoot nearby issues faster if the same problem appears again.",
+  };
 }
 
 function SmallDisclosure() {
@@ -313,11 +536,7 @@ function QuickRepairCallout({ href, fix }) {
       <div className="ctaRow">
         <div className="ctaLabel">Optional faster option</div>
 
-        <AffiliateCtaButton
-          href={href}
-          placement="top"
-          errorCode={fix.slug}
-        >
+        <AffiliateCtaButton href={href} placement="top" errorCode={fix.slug}>
           {ctaText}
         </AffiliateCtaButton>
 
@@ -343,11 +562,7 @@ function MidPageRepairCallout({ href, fix }) {
       <div className="ctaRow">
         <div className="ctaLabel">Before advanced fixes</div>
 
-        <AffiliateCtaButton
-          href={href}
-          placement="mid"
-          errorCode={fix.slug}
-        >
+        <AffiliateCtaButton href={href} placement="mid" errorCode={fix.slug}>
           Try automated repair first
         </AffiliateCtaButton>
 
@@ -374,11 +589,7 @@ function PersistentRepairCallout({ href, fix, title, paragraphs, ctaText }) {
       <div className="ctaRow">
         <div className="ctaLabel">Recommended next step</div>
 
-        <AffiliateCtaButton
-          href={href}
-          placement="bottom"
-          errorCode={fix.slug}
-        >
+        <AffiliateCtaButton href={href} placement="bottom" errorCode={fix.slug}>
           {ctaText}
         </AffiliateCtaButton>
 
@@ -393,73 +604,17 @@ function PersistentRepairCallout({ href, fix, title, paragraphs, ctaText }) {
   );
 }
 
-function getRelatedFixes(currentCode, count = 3) {
-  const list = Array.isArray(fixes) ? fixes : [];
-  if (!list.length) return [];
-
-  const idx = list.findIndex((f) => normalize(f?.slug) === normalize(currentCode));
-  if (idx === -1) {
-    return list
-      .filter((f) => f?.slug && normalize(f.slug) !== normalize(currentCode))
-      .slice(0, count);
-  }
-
-  const out = [];
-  let step = 1;
-
-  while (out.length < count && step < list.length + 5) {
-    const plus = list[(idx + step) % list.length];
-    const minus = list[(idx - step + list.length) % list.length];
-
-    if (
-      plus?.slug &&
-      normalize(plus.slug) !== normalize(currentCode) &&
-      !out.some((x) => x.slug === plus.slug)
-    ) {
-      out.push(plus);
-      if (out.length >= count) break;
-    }
-
-    if (
-      minus?.slug &&
-      normalize(minus.slug) !== normalize(currentCode) &&
-      !out.some((x) => x.slug === minus.slug)
-    ) {
-      out.push(minus);
-      if (out.length >= count) break;
-    }
-
-    step += 1;
-  }
-
-  return out.slice(0, count);
-}
-
-function getContextualLinks(currentCode, count = 3) {
-  const related = getRelatedFixes(currentCode, count);
-  if (related.length >= count) return related;
-
-  const existing = new Set(related.map((item) => item.slug));
-  const extras = (Array.isArray(fixes) ? fixes : [])
-    .filter((f) => f?.slug && normalize(f.slug) !== normalize(currentCode) && !existing.has(f.slug))
-    .slice(0, count - related.length);
-
-  return [...related, ...extras].slice(0, count);
-}
-
-function ContextualInternalLinks({ currentSlug }) {
-  const links = getContextualLinks(currentSlug, 3);
+function ContextualInternalLinks({ currentFix }) {
+  const links = getContextualLinks(currentFix, 3);
 
   if (!links.length) return null;
 
+  const copy = getContextualSectionCopy(currentFix);
+
   return (
     <section className="section">
-      <h2>Other Windows Errors You May Also Need to Fix</h2>
-      <p>
-        Windows problems often come in clusters. If this error appeared during an update,
-        install, activation attempt, or repair process, these related guides may help you
-        troubleshoot the next issue faster.
-      </p>
+      <h2>{copy.heading}</h2>
+      <p>{copy.intro}</p>
       <ul>
         {links.map((fix) => (
           <li key={`contextual-${fix.slug}`}>
@@ -550,7 +705,7 @@ export default async function FixPage({ params }) {
     WINDOWS_REPAIR_AFFILIATE_LINK;
 
   const showUniversalFaq = true;
-  const relatedFixes = getRelatedFixes(fix.slug, 3);
+  const relatedFixes = getRelatedFixes(fix, 3);
 
   if (normalize(fix.slug) === "0x80070422") {
     return (
@@ -636,7 +791,7 @@ net start msiserver`}
             <p>Restart your PC and try Windows Update again.</p>
           </section>
 
-          <ContextualInternalLinks currentSlug={fix.slug} />
+          <ContextualInternalLinks currentFix={fix} />
 
           <section className="section">
             <h2>Related Windows Errors</h2>
@@ -724,7 +879,7 @@ net start msiserver`}
           </ol>
         </section>
 
-        <ContextualInternalLinks currentSlug={fix.slug} />
+        <ContextualInternalLinks currentFix={fix} />
 
         {hasScriptSection ? (
           <section className="section">
