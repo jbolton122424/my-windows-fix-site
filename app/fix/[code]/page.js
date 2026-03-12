@@ -185,9 +185,11 @@ export async function generateMetadata({ params }) {
 function getIssuePhrase(fix) {
   const source = `${fix?.title || ""} ${fix?.description || ""} ${fix?.whatItMeans || ""}`.toLowerCase();
 
+  if (source.includes("activation") || source.includes("license")) {
+    return "Windows activation problems";
+  }
   if (source.includes("update")) return "Windows Update problems";
   if (source.includes("store")) return "Microsoft Store problems";
-  if (source.includes("activation")) return "Windows activation problems";
   if (source.includes("network") || source.includes("internet") || source.includes("connection")) {
     return "Windows network problems";
   }
@@ -208,17 +210,45 @@ function getTopCtaText(fix) {
 function getBottomCtaText(fix) {
   const source = `${fix?.title || ""} ${fix?.description || ""} ${fix?.whatItMeans || ""}`.toLowerCase();
 
+  if (source.includes("activation") || source.includes("license")) {
+    return "Repair Windows activation issues automatically";
+  }
   if (source.includes("update")) return "Fix Windows Update errors automatically";
   if (source.includes("store")) return "Fix Microsoft Store errors automatically";
-  if (source.includes("activation")) return "Fix Windows activation issues automatically";
   if (source.includes("network") || source.includes("internet") || source.includes("connection")) {
     return "Repair Windows network issues automatically";
   }
   if (source.includes("dll") || source.includes("module") || source.includes("missing")) {
     return "Fix missing Windows file issues automatically";
   }
+  if (source.includes("install") || source.includes("installer")) {
+    return "Repair Windows install issues automatically";
+  }
 
   return `Repair Windows issues linked to ${fix?.slug || "this error"}`;
+}
+
+function shouldUseCustomBottomCta(fix) {
+  const text = String(fix?.affiliateCallout?.ctaText || "").trim().toLowerCase();
+  if (!text) return false;
+
+  const tooGenericPhrases = [
+    "fix common windows system issues automatically",
+    "scan and repair windows automatically",
+    "fix windows problems automatically",
+    "repair windows automatically",
+    "fix this error automatically",
+  ];
+
+  return !tooGenericPhrases.includes(text);
+}
+
+function getResolvedBottomCtaText(fix) {
+  if (shouldUseCustomBottomCta(fix)) {
+    return fix.affiliateCallout.ctaText;
+  }
+
+  return getBottomCtaText(fix);
 }
 
 function getBottomBodyParagraphs(fix) {
@@ -236,9 +266,17 @@ function getBottomBodyParagraphs(fix) {
   ];
 }
 
+function SmallDisclosure() {
+  return (
+    <p className="note" style={{ fontSize: "0.9rem", opacity: 0.78 }}>
+      Disclosure: We may earn a commission if you purchase through this link.
+    </p>
+  );
+}
+
 function OutbytePolicyLinks() {
   return (
-    <p className="ctaLinks">
+    <p className="ctaLinks" style={{ fontSize: "0.95rem", opacity: 0.85 }}>
       <a href={OUTBYTE_LICENSE_URL} target="_blank" rel="nofollow noopener">
         License Agreement
       </a>
@@ -276,15 +314,10 @@ function QuickRepairCallout({ href, fix }) {
           {getTopCtaText(fix)}
         </a>
 
-        <p className="note">
-          Manual fixes are listed below if you prefer to troubleshoot it yourself first.
-        </p>
+        <p className="note">Manual fixes are listed below if you prefer to troubleshoot it yourself first.</p>
 
         <OutbytePolicyLinks />
-
-        <p className="note">
-          Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you).
-        </p>
+        <SmallDisclosure />
       </div>
     </section>
   );
@@ -311,16 +344,13 @@ function MidPageRepairCallout({ href, fix }) {
         </p>
 
         <OutbytePolicyLinks />
-
-        <p className="note">
-          Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you).
-        </p>
+        <SmallDisclosure />
       </div>
     </section>
   );
 }
 
-function PersistentRepairCallout({ href, fix, title, paragraphs, ctaText, note }) {
+function PersistentRepairCallout({ href, fix, title, paragraphs, ctaText }) {
   return (
     <section className="section callout">
       <h2>{title || "Still not fixed? Try an automated repair scan"}</h2>
@@ -340,11 +370,7 @@ function PersistentRepairCallout({ href, fix, title, paragraphs, ctaText, note }
         </p>
 
         <OutbytePolicyLinks />
-
-        <p className="note">
-          {note ||
-            "Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you)."}
-        </p>
+        <SmallDisclosure />
       </div>
     </section>
   );
@@ -502,13 +528,6 @@ export default async function FixPage({ params }) {
     typeof fix.scriptSection.code === "string" &&
     fix.scriptSection.code.trim().length > 0;
 
-  const hasAffiliateCallout =
-    fix &&
-    fix.affiliateCallout &&
-    typeof fix.affiliateCallout === "object" &&
-    typeof fix.affiliateCallout.ctaText === "string" &&
-    fix.affiliateCallout.ctaText.trim().length > 0;
-
   const affiliateHref =
     (fix?.affiliateCallout?.href && String(fix.affiliateCallout.href).trim()) ||
     WINDOWS_REPAIR_AFFILIATE_LINK;
@@ -629,7 +648,6 @@ net start msiserver`}
               "An automated repair scan can check for those problems and may save time before you continue with more manual troubleshooting.",
             ]}
             ctaText="Fix Windows Update errors automatically"
-            note="Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you)."
           />
 
           <section className="section">
@@ -726,8 +744,7 @@ net start msiserver`}
           fix={fix}
           title={fix.affiliateCallout?.title || "Still not fixed? Try an automated repair scan"}
           paragraphs={getBottomBodyParagraphs(fix)}
-          ctaText={hasAffiliateCallout ? fix.affiliateCallout.ctaText : getBottomCtaText(fix)}
-          note={fix.affiliateCallout?.note}
+          ctaText={getResolvedBottomCtaText(fix)}
         />
 
         {showUniversalFaq ? (
