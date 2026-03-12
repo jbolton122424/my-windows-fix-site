@@ -1,5 +1,6 @@
 // app/fix/[code]/page.js
 import CopyCodeBlock from "../../components/CopyCodeBlock";
+import AffiliateCtaButton from "../../components/AffiliateCtaButton";
 import { fixes } from "../../fixes";
 import { WINDOWS_REPAIR_AFFILIATE_LINK } from "../../affiliate";
 import { redirect } from "next/navigation";
@@ -298,6 +299,7 @@ function OutbytePolicyLinks() {
 
 function QuickRepairCallout({ href, fix }) {
   const issuePhrase = getIssuePhrase(fix);
+  const ctaText = getTopCtaText(fix);
 
   return (
     <section className="section callout">
@@ -310,9 +312,14 @@ function QuickRepairCallout({ href, fix }) {
 
       <div className="ctaRow">
         <div className="ctaLabel">Optional faster option</div>
-        <a className="ctaButton" href={href} target="_blank" rel="nofollow sponsored noopener">
-          {getTopCtaText(fix)}
-        </a>
+
+        <AffiliateCtaButton
+          href={href}
+          placement="top"
+          errorCode={fix.slug}
+        >
+          {ctaText}
+        </AffiliateCtaButton>
 
         <p className="note">Manual fixes are listed below if you prefer to troubleshoot it yourself first.</p>
 
@@ -335,9 +342,14 @@ function MidPageRepairCallout({ href, fix }) {
 
       <div className="ctaRow">
         <div className="ctaLabel">Before advanced fixes</div>
-        <a className="ctaButton" href={href} target="_blank" rel="nofollow sponsored noopener">
+
+        <AffiliateCtaButton
+          href={href}
+          placement="mid"
+          errorCode={fix.slug}
+        >
           Try automated repair first
-        </a>
+        </AffiliateCtaButton>
 
         <p className="note">
           Good option if you would rather avoid command-line work and longer manual troubleshooting.
@@ -361,9 +373,14 @@ function PersistentRepairCallout({ href, fix, title, paragraphs, ctaText }) {
 
       <div className="ctaRow">
         <div className="ctaLabel">Recommended next step</div>
-        <a className="ctaButton" href={href} target="_blank" rel="nofollow sponsored noopener">
+
+        <AffiliateCtaButton
+          href={href}
+          placement="bottom"
+          errorCode={fix.slug}
+        >
           {ctaText}
-        </a>
+        </AffiliateCtaButton>
 
         <p className="note">
           Best if you want to try a faster repair path before spending more time on manual fixes.
