@@ -182,6 +182,60 @@ export async function generateMetadata({ params }) {
   };
 }
 
+function getIssuePhrase(fix) {
+  const source = `${fix?.title || ""} ${fix?.description || ""} ${fix?.whatItMeans || ""}`.toLowerCase();
+
+  if (source.includes("update")) return "Windows Update problems";
+  if (source.includes("store")) return "Microsoft Store problems";
+  if (source.includes("activation")) return "Windows activation problems";
+  if (source.includes("network") || source.includes("internet") || source.includes("connection")) {
+    return "Windows network problems";
+  }
+  if (source.includes("dll") || source.includes("module") || source.includes("missing")) {
+    return "missing Windows file issues";
+  }
+  if (source.includes("install") || source.includes("installer")) {
+    return "Windows install problems";
+  }
+
+  return "common Windows problems";
+}
+
+function getTopCtaText(fix) {
+  return `Scan for problems causing ${fix?.slug || "this Windows error"}`;
+}
+
+function getBottomCtaText(fix) {
+  const source = `${fix?.title || ""} ${fix?.description || ""} ${fix?.whatItMeans || ""}`.toLowerCase();
+
+  if (source.includes("update")) return "Fix Windows Update errors automatically";
+  if (source.includes("store")) return "Fix Microsoft Store errors automatically";
+  if (source.includes("activation")) return "Fix Windows activation issues automatically";
+  if (source.includes("network") || source.includes("internet") || source.includes("connection")) {
+    return "Repair Windows network issues automatically";
+  }
+  if (source.includes("dll") || source.includes("module") || source.includes("missing")) {
+    return "Fix missing Windows file issues automatically";
+  }
+
+  return `Repair Windows issues linked to ${fix?.slug || "this error"}`;
+}
+
+function getBottomBodyParagraphs(fix) {
+  if (Array.isArray(fix?.affiliateCallout?.body) && fix.affiliateCallout.body.length) {
+    return fix.affiliateCallout.body;
+  }
+
+  if (fix?.affiliateCallout?.body) {
+    return [fix.affiliateCallout.body];
+  }
+
+  return [
+    `If ${fix?.slug || "this error"} is still appearing after the steps above, the problem may involve deeper system corruption, broken services, or missing Windows components.`,
+    "An automated repair scan can check for those issues and may save time before you continue with more manual troubleshooting.",
+  ];
+}
+
 function OutbytePolicyLinks() {
   return (
     <p className="ctaLinks">
@@ -204,24 +258,92 @@ function OutbytePolicyLinks() {
   );
 }
 
-function QuickRepairCallout({ href }) {
+function QuickRepairCallout({ href, fix }) {
+  const issuePhrase = getIssuePhrase(fix);
+
   return (
     <section className="section callout">
-      <h2>Quick Repair Option</h2>
+      <h2>Try the fastest fix for {fix.slug}</h2>
       <p>
-        If you want the fastest option, you can use an automated repair tool to scan for
-        broken Windows services, corrupted files, and other issues that often trigger error codes.
+        If you want to avoid working through manual repair steps first, you can start with an
+        automated scan. It can check for corrupted system files, broken services, and other{" "}
+        {issuePhrase.toLowerCase()} commonly tied to error <strong>{fix.slug}</strong>.
       </p>
+
       <div className="ctaRow">
-        <div className="ctaLabel">Fastest option</div>
+        <div className="ctaLabel">Optional faster option</div>
         <a className="ctaButton" href={href} target="_blank" rel="nofollow sponsored noopener">
-          Scan and repair Windows automatically
+          {getTopCtaText(fix)}
         </a>
+
+        <p className="note">
+          Manual fixes are listed below if you prefer to troubleshoot it yourself first.
+        </p>
 
         <OutbytePolicyLinks />
 
         <p className="note">
           Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you).
+        </p>
+      </div>
+    </section>
+  );
+}
+
+function MidPageRepairCallout({ href, fix }) {
+  return (
+    <section className="section callout">
+      <h2>Want to skip the more advanced repair steps?</h2>
+      <p>
+        The next steps may involve deeper troubleshooting, system repair commands, or repeated
+        testing. If you want to try a faster automated option before continuing, run a scan for{" "}
+        <strong>{fix.slug}</strong> first.
+      </p>
+
+      <div className="ctaRow">
+        <div className="ctaLabel">Before advanced fixes</div>
+        <a className="ctaButton" href={href} target="_blank" rel="nofollow sponsored noopener">
+          Try automated repair first
+        </a>
+
+        <p className="note">
+          Good option if you would rather avoid command-line work and longer manual troubleshooting.
+        </p>
+
+        <OutbytePolicyLinks />
+
+        <p className="note">
+          Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you).
+        </p>
+      </div>
+    </section>
+  );
+}
+
+function PersistentRepairCallout({ href, fix, title, paragraphs, ctaText, note }) {
+  return (
+    <section className="section callout">
+      <h2>{title || "Still not fixed? Try an automated repair scan"}</h2>
+
+      {Array.isArray(paragraphs)
+        ? paragraphs.map((p, idx) => <p key={`persistent-body-${idx}`}>{p}</p>)
+        : null}
+
+      <div className="ctaRow">
+        <div className="ctaLabel">Recommended next step</div>
+        <a className="ctaButton" href={href} target="_blank" rel="nofollow sponsored noopener">
+          {ctaText}
+        </a>
+
+        <p className="note">
+          Best if you want to try a faster repair path before spending more time on manual fixes.
+        </p>
+
+        <OutbytePolicyLinks />
+
+        <p className="note">
+          {note ||
+            "Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you)."}
         </p>
       </div>
     </section>
@@ -415,7 +537,7 @@ export default async function FixPage({ params }) {
             </p>
           </header>
 
-          <QuickRepairCallout href={affiliateHref} />
+          <QuickRepairCallout href={affiliateHref} fix={fix} />
 
           <section className="section">
             <h2>Method 1: Enable the Windows Update Service</h2>
@@ -434,6 +556,8 @@ export default async function FixPage({ params }) {
               <li>Restart your PC and try Windows Update again.</li>
             </ol>
           </section>
+
+          <MidPageRepairCallout href={affiliateHref} fix={fix} />
 
           <section className="section">
             <h2>Method 2: Reset Windows Update Components</h2>
@@ -496,32 +620,17 @@ net start msiserver`}
             </ul>
           </section>
 
-          <section className="section callout">
-            <h2>If the Error Still Persists</h2>
-
-            <p>
-              If system files or update components are damaged, manual steps may not fully resolve{" "}
-              <strong>0x80070422</strong>.
-            </p>
-
-            <p>
-              In that case, an automated Windows repair tool can scan for common causes like broken update services and
-              corrupted system files.
-            </p>
-
-            <div className="ctaRow">
-              <div className="ctaLabel">Recommended option</div>
-              <a className="ctaButton" href={affiliateHref} target="_blank" rel="nofollow sponsored noopener">
-                Fix Windows Update errors automatically
-              </a>
-
-              <OutbytePolicyLinks />
-
-              <p className="note">
-                Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you).
-              </p>
-            </div>
-          </section>
+          <PersistentRepairCallout
+            href={affiliateHref}
+            fix={fix}
+            title="Still seeing 0x80070422?"
+            paragraphs={[
+              "If the steps above did not solve the issue, the problem may involve broken update services, corrupted system files, or deeper Windows Update component issues.",
+              "An automated repair scan can check for those problems and may save time before you continue with more manual troubleshooting.",
+            ]}
+            ctaText="Fix Windows Update errors automatically"
+            note="Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you)."
+          />
 
           <section className="section">
             <h2>Frequently Asked Questions</h2>
@@ -553,7 +662,7 @@ net start msiserver`}
           <p className="lead">{fix.description}</p>
         </header>
 
-        <QuickRepairCallout href={affiliateHref} />
+        <QuickRepairCallout href={affiliateHref} fix={fix} />
 
         <section className="section">
           <h2>What it means</h2>
@@ -568,6 +677,8 @@ net start msiserver`}
               : null}
           </ol>
         </section>
+
+        <MidPageRepairCallout href={affiliateHref} fix={fix} />
 
         <section className="section">
           <h2>Advanced steps</h2>
@@ -610,28 +721,14 @@ net start msiserver`}
           </section>
         ) : null}
 
-        {hasAffiliateCallout ? (
-          <section className="section callout">
-            <h2>{fix.affiliateCallout.title || "If the Error Still Persists"}</h2>
-
-            {Array.isArray(fix.affiliateCallout.body)
-              ? fix.affiliateCallout.body.map((p, idx) => <p key={`body-${idx}`}>{p}</p>)
-              : fix.affiliateCallout.body
-                ? <p>{fix.affiliateCallout.body}</p>
-                : null}
-
-            <div className="ctaRow">
-              <div className="ctaLabel">Recommended option</div>
-              <a className="ctaButton" href={affiliateHref} target="_blank" rel="nofollow sponsored noopener">
-                {fix.affiliateCallout.ctaText}
-              </a>
-
-              <OutbytePolicyLinks />
-
-              {fix.affiliateCallout.note ? <p className="note">{fix.affiliateCallout.note}</p> : null}
-            </div>
-          </section>
-        ) : null}
+        <PersistentRepairCallout
+          href={affiliateHref}
+          fix={fix}
+          title={fix.affiliateCallout?.title || "Still not fixed? Try an automated repair scan"}
+          paragraphs={getBottomBodyParagraphs(fix)}
+          ctaText={hasAffiliateCallout ? fix.affiliateCallout.ctaText : getBottomCtaText(fix)}
+          note={fix.affiliateCallout?.note}
+        />
 
         {showUniversalFaq ? (
           <section className="section">
