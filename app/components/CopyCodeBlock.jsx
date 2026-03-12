@@ -57,6 +57,7 @@ export default function CopyCodeBlock({
     title: {
       fontSize: 16,
       fontWeight: 700,
+      color: "#fff",
     },
     pill: {
       fontSize: 11,
@@ -66,6 +67,7 @@ export default function CopyCodeBlock({
       padding: "4px 8px",
       borderRadius: 6,
       marginLeft: 10,
+      color: "#fff",
     },
     button: {
       padding: "10px 14px",
@@ -88,17 +90,30 @@ export default function CopyCodeBlock({
       margin: 0,
       padding: "18px",
       overflowX: "auto",
+      background: "transparent",
       color: "rgba(255,255,255,0.92)",
       fontSize: 14,
       lineHeight: 1.55,
       fontFamily:
         'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+      whiteSpace: "pre-wrap",
+      wordBreak: "break-word",
+    },
+    codeInner: {
+      color: "inherit",
+      background: "transparent",
+      padding: 0,
+      borderRadius: 0,
+      fontSize: "inherit",
+      lineHeight: "inherit",
+      fontFamily: "inherit",
     },
     footer: {
       padding: "10px 18px",
       fontSize: 13,
       background: "#f1f5f9",
       borderTop: "1px solid rgba(0,0,0,0.08)",
+      color: "rgba(0,0,0,0.82)",
     },
   };
 
@@ -123,7 +138,7 @@ export default function CopyCodeBlock({
 
       <div style={styles.codeWrap}>
         <pre style={styles.code}>
-          <code>{normalizedCode}</code>
+          <code style={styles.codeInner}>{normalizedCode}</code>
         </pre>
       </div>
 
