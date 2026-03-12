@@ -12,6 +12,7 @@ function normalizeCode(value) {
 
 export default function Navbar() {
   const [query, setQuery] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -25,34 +26,57 @@ export default function Navbar() {
   return (
     <header
       style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 50,
         borderBottom: "1px solid rgba(0,0,0,0.08)",
-        background: "#ffffff",
+        background: "rgba(255,255,255,0.96)",
+        backdropFilter: "blur(10px)",
       }}
     >
       <div
         style={{
           maxWidth: 1120,
           margin: "0 auto",
-          padding: "14px 20px",
+          padding: "16px 20px",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          gap: 16,
+          gap: 18,
           flexWrap: "wrap",
         }}
       >
-        <Link
-          href="/"
+        <div
           style={{
-            textDecoration: "none",
-            color: "#111",
-            fontWeight: 900,
-            fontSize: 18,
-            letterSpacing: "-0.02em",
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
           }}
         >
-          Fix Error Help
-        </Link>
+          <Link
+            href="/"
+            style={{
+              textDecoration: "none",
+              color: "#111",
+              fontWeight: 900,
+              fontSize: 19,
+              letterSpacing: "-0.03em",
+              lineHeight: 1.1,
+            }}
+          >
+            Fix Error Help
+          </Link>
+
+          <span
+            style={{
+              fontSize: 12,
+              color: "rgba(0,0,0,0.58)",
+              lineHeight: 1.35,
+            }}
+          >
+            Windows error code repair guides
+          </span>
+        </div>
 
         <div
           style={{
@@ -64,11 +88,12 @@ export default function Navbar() {
           }}
         >
           <nav
+            aria-label="Main navigation"
             style={{
               display: "flex",
-              gap: 18,
-              fontWeight: 700,
-              fontSize: 14,
+              alignItems: "center",
+              gap: 8,
+              flexWrap: "wrap",
             }}
           >
             <Link
@@ -76,6 +101,11 @@ export default function Navbar() {
               style={{
                 textDecoration: "none",
                 color: "#111",
+                fontWeight: 700,
+                fontSize: 14,
+                padding: "9px 12px",
+                borderRadius: 10,
+                lineHeight: 1,
               }}
             >
               Home
@@ -86,6 +116,11 @@ export default function Navbar() {
               style={{
                 textDecoration: "none",
                 color: "#111",
+                fontWeight: 700,
+                fontSize: 14,
+                padding: "9px 12px",
+                borderRadius: 10,
+                lineHeight: 1,
               }}
             >
               All Guides
@@ -100,20 +135,33 @@ export default function Navbar() {
               display: "flex",
               alignItems: "center",
               gap: 8,
+              padding: 4,
+              borderRadius: 14,
+              background: "#f5f7fa",
+              border: isFocused
+                ? "1px solid rgba(17,17,17,0.22)"
+                : "1px solid rgba(0,0,0,0.08)",
+              boxShadow: isFocused
+                ? "0 0 0 3px rgba(17,17,17,0.08)"
+                : "0 1px 2px rgba(0,0,0,0.03)",
             }}
           >
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
               placeholder="Search error code"
               aria-label="Search error code"
               style={{
-                width: 180,
-                padding: "10px 12px",
+                width: 200,
+                padding: "11px 12px",
                 borderRadius: 10,
-                border: "1px solid rgba(0,0,0,0.14)",
+                border: "none",
+                background: "transparent",
                 fontSize: 14,
+                color: "#111",
                 outline: "none",
               }}
             />
@@ -121,14 +169,16 @@ export default function Navbar() {
             <button
               type="submit"
               style={{
-                padding: "10px 14px",
+                padding: "11px 14px",
                 borderRadius: 10,
-                border: "1px solid rgba(0,0,0,0.1)",
+                border: "1px solid rgba(0,0,0,0.08)",
                 background: "#111",
                 color: "#fff",
                 fontSize: 14,
                 fontWeight: 800,
                 cursor: "pointer",
+                lineHeight: 1,
+                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
               }}
             >
               Search
