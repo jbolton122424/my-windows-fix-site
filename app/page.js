@@ -80,12 +80,68 @@ function LinkCard({ fix, cta = "Open guide →" }) {
   );
 }
 
-function SectionGrid({ title, intro, items }) {
+function HubCard({ href, title, description, cta = "Browse hub →" }) {
+  return (
+    <Link
+      href={href}
+      className="card"
+      style={{
+        display: "block",
+        textDecoration: "none",
+        color: "inherit",
+        padding: 18,
+        border: "1px solid rgba(0,0,0,0.1)",
+      }}
+    >
+      <div style={{ fontWeight: 900, fontSize: 16 }}>{title}</div>
+
+      <div
+        style={{
+          marginTop: 10,
+          fontSize: 14,
+          color: "rgba(0,0,0,0.72)",
+          lineHeight: 1.6,
+        }}
+      >
+        {description}
+      </div>
+
+      <div style={{ marginTop: 14, fontSize: 14, fontWeight: 800 }}>{cta}</div>
+    </Link>
+  );
+}
+
+function SectionGrid({ title, intro, items, hubHref, hubLabel }) {
   if (!items.length) return null;
 
   return (
     <section style={{ marginTop: 28 }}>
-      <h2 style={{ marginBottom: 8 }}>{title}</h2>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "baseline",
+          justifyContent: "space-between",
+          gap: 12,
+          flexWrap: "wrap",
+        }}
+      >
+        <h2 style={{ marginBottom: 8 }}>{title}</h2>
+
+        {hubHref ? (
+          <Link
+            href={hubHref}
+            style={{
+              fontSize: 14,
+              fontWeight: 800,
+              textDecoration: "underline",
+              textUnderlineOffset: 2,
+            }}
+          >
+            {hubLabel || "Browse all →"}
+          </Link>
+        ) : null}
+      </div>
+
       <p style={{ marginTop: 0 }}>{intro}</p>
 
       <div
@@ -192,10 +248,43 @@ export default function Home() {
         </section>
       ) : null}
 
+      <section
+        className="card"
+        style={{
+          marginTop: 24,
+          padding: 18,
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
+          <h2 style={{ margin: 0 }}>Browse by topic</h2>
+          <span style={{ fontSize: 13, color: "rgba(0,0,0,0.65)" }}>
+            Start with a category hub if you’re troubleshooting a broader Windows problem
+          </span>
+        </div>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+            gap: 14,
+            marginTop: 14,
+          }}
+        >
+          <HubCard
+            href="/windows-update-errors"
+            title="Windows Update Errors"
+            description="Browse update-related repair guides for corrupted cache, stuck services, download failures, servicing problems, and component store issues."
+            cta="Open Windows Update hub →"
+          />
+        </div>
+      </section>
+
       <SectionGrid
         title="Windows Update Errors"
         intro="These are some of the most common Windows Update error codes, including disabled services, corrupted update cache, incomplete downloads, and stuck update components."
         items={updateFixes}
+        hubHref="/windows-update-errors"
+        hubLabel="Browse all Windows Update errors →"
       />
 
       <SectionGrid
