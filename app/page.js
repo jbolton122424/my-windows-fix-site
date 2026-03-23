@@ -283,6 +283,13 @@ export default function Home() {
             description="Browse activation-related repair guides for invalid keys, blocked licenses, missing digital licenses, and KMS connectivity problems."
             cta="Open Activation hub →"
           />
+
+          <HubCard
+            href="/network-errors"
+            title="Network Errors"
+            description="Browse network-related repair guides for DNS problems, proxy or VPN issues, Outlook connectivity failures, and interrupted server connections."
+            cta="Open Network hub →"
+          />
         </div>
       </section>
 
@@ -298,6 +305,8 @@ export default function Home() {
         title="Network and Connection Errors"
         intro="Use these guides if Windows Update, Microsoft services, or Outlook are failing because of DNS issues, proxy or VPN interference, firewall filtering, or unstable networking."
         items={networkFixes}
+        hubHref="/network-errors"
+        hubLabel="Browse all Network errors →"
       />
 
       <SectionGrid
