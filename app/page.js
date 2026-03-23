@@ -276,6 +276,13 @@ export default function Home() {
             description="Browse update-related repair guides for corrupted cache, stuck services, download failures, servicing problems, and component store issues."
             cta="Open Windows Update hub →"
           />
+
+          <HubCard
+            href="/activation-errors"
+            title="Activation Errors"
+            description="Browse activation-related repair guides for invalid keys, blocked licenses, missing digital licenses, and KMS connectivity problems."
+            cta="Open Activation hub →"
+          />
         </div>
       </section>
 
@@ -309,6 +316,8 @@ export default function Home() {
         title="Windows Activation Errors"
         intro="These guides help with blocked keys, missing digital licenses, KMS connectivity problems, and other activation failures."
         items={activationFixes}
+        hubHref="/activation-errors"
+        hubLabel="Browse all Activation errors →"
       />
 
       <section id="all-guides" style={{ marginTop: 30, scrollMarginTop: 90 }}>
