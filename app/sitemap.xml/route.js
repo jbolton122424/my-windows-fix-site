@@ -1,5 +1,7 @@
 import { fixes } from "@/app/fixes";
 
+const SITE_URL = "https://fixerrorhelp.com";
+
 function escapeXml(value) {
   return String(value)
     .replace(/&/g, "&amp;")
@@ -10,48 +12,36 @@ function escapeXml(value) {
 }
 
 export async function GET() {
-  const baseUrl = "https://fixerrorhelp.com".replace(/\/$/, "");
-  const lastmod = new Date().toISOString();
-
   const staticPages = [
-    {
-      path: "",
-      changefreq: "weekly",
-      priority: "1.0",
-    },
+    "",
+    "/windows-update-errors",
+    "/activation-errors",
+    "/network-errors",
+    "/microsoft-store-errors",
   ];
 
-  const staticUrls = staticPages.map(
-    (page) => `
-  <url>
-    <loc>${escapeXml(`${baseUrl}/${page.path}`)}</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>${page.changefreq}</changefreq>
-    <priority>${page.priority}</priority>
-  </url>`
-  );
+  const urls = [
+    ...staticPages.map((path) => `${SITE_URL}${path}`),
+    ...fixes.map((fix) => `${SITE_URL}/fix/${fix.slug}`),
+  ];
 
-  const fixUrls = fixes.map(
-    (fix) => `
-  <url>
-    <loc>${escapeXml(`${baseUrl}/fix/${fix.slug}`)}</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>`
-  );
+  const now = new Date().toISOString();
 
-  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${[
-    ...staticUrls,
-    ...fixUrls,
-  ].join("")}
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls
+  .map(
+    (url) => `  <url>
+    <loc>${escapeXml(url)}</loc>
+    <lastmod>${now}</lastmod>
+  </url>`
+  )
+  .join("\n")}
 </urlset>`;
 
-  return new Response(sitemap, {
+  return new Response(xml, {
     headers: {
-      "Content-Type": "application/xml; charset=utf-8",
-      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+      "Content-Type": "application/xml",
     },
   });
 }
