@@ -296,6 +296,36 @@ export default function HomePage() {
               Open Microsoft Store hub →
             </div>
           </Link>
+
+          <Link
+            href="/install-and-corruption-errors"
+            className="card"
+            style={{
+              display: "block",
+              textDecoration: "none",
+              color: "inherit",
+              padding: 18,
+              border: "1px solid rgba(0,0,0,0.1)",
+            }}
+          >
+            <div style={{ fontWeight: 900, fontSize: 16 }}>
+              Install and Corruption Errors
+            </div>
+            <div
+              style={{
+                marginTop: 10,
+                fontSize: 14,
+                color: "rgba(0,0,0,0.72)",
+                lineHeight: 1.6,
+              }}
+            >
+              Browse repair guides for setup failures, damaged files, invalid
+              parameters, and Windows corruption-related install problems.
+            </div>
+            <div style={{ marginTop: 14, fontSize: 14, fontWeight: 800 }}>
+              Open Install hub →
+            </div>
+          </Link>
         </div>
       </section>
 

@@ -18,6 +18,7 @@ export async function GET() {
     "/activation-errors",
     "/network-errors",
     "/microsoft-store-errors",
+    "/install-and-corruption-errors",
   ];
 
   const urls = [
