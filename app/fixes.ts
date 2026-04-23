@@ -958,25 +958,26 @@ sfc /scannow`,
 
   {
     slug: "0x80070652",
-    title: "Fix 0x80070652",
-    description: "Another installation is already in progress.",
+    title: "Fix Windows Update Error 0x80070652",
+    description:
+      "Windows Update error 0x80070652 usually means another installation is already running or a previous install did not finish cleanly, which blocks new updates from starting.",
     whatItMeans:
-      "Error 0x80070652 usually means Windows Installer is busy, or a previous install didn’t finish cleanly and is blocking new installs or updates.",
+      "Error 0x80070652 usually appears when Windows thinks another installation is already in progress. In plain English, the installer service is still busy, stuck, or waiting on a previous update or setup process to finish. Common causes include interrupted installs, Windows Installer getting hung up in the background, third-party updater tools, or Windows Update components that need to be reset.",
     tryFirst: [
-      "Restart your PC and try the install/update again.",
-      "Wait 10–20 minutes and try again.",
-      "Close installer windows and pause third-party updaters.",
+      "Restart your PC and then try the install or update again.",
+      "Wait 10 to 20 minutes if another update may still be finishing in the background.",
+      "Close installer windows and pause third-party updater tools before retrying.",
     ],
     advanced: [
-      "Run DISM + SFC to fix corruption that can keep installs stuck.",
-      "Reset Windows Update components if the error appears in Windows Update.",
-      "Try again after a clean boot if needed.",
+      "Run DISM in Command Prompt: DISM /Online /Cleanup-Image /RestoreHealth",
+      "Run System File Checker in Command Prompt: sfc /scannow",
+      "Reset Windows Update components if the error appears during Windows Update.",
     ],
     scriptSection: {
-      title: "Repair System Files + Reset Update Components",
+      title: "Repair Installer State and Reset Windows Update Components",
       intro:
-        "If installs keep getting stuck or Windows Update triggers this error, repairing system files and resetting update components can clear blocked installer states.",
-      stepsIntro: "Run these commands one at a time (Command Prompt as Admin):",
+        "If Windows keeps reporting that another installation is already in progress, the safest next step is to repair system files and reset the Windows Update cache. This helps clear stuck installer states and refreshes the update services Windows depends on.",
+      stepsIntro: "Run these commands one at a time in Command Prompt as Administrator:",
       code: `DISM /Online /Cleanup-Image /RestoreHealth
 sfc /scannow
 
@@ -992,22 +993,32 @@ net start wuauserv
 net start bits
 net start cryptsvc
 net start msiserver`,
-      outro: "Restart your PC and retry the installation/update.",
+      outro:
+        "Restart your PC after the commands finish, then try the update or installation again. If the error returns right away, make sure another installer, Microsoft Store install, or background updater is not still running.",
     },
     affiliateCallout: {
       title: "If the Error Still Persists",
       body: [
-        "If installer states or Windows Update components are corrupted, manual steps may not fully resolve repeated install blocks.",
-        "An automated repair tool can scan for common Windows issues and repair them automatically.",
+        "If Windows Installer or Windows Update components are stuck or damaged, manual steps may not fully stop repeated 0x80070652 errors.",
+        "An automated Windows repair tool can scan for common Windows issues and repair them automatically.",
       ],
-      ctaText: "Fix Windows install/update issues automatically",
+      ctaText: "Fix Windows Update error 0x80070652 automatically",
       href: "https://outebytech.com/W5mgq4g8",
       note: "Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you).",
     },
     faq: [
-      { q: "What causes error 0x80070652?", a: "Another install is running, or a previous install didn’t finish cleanly and is blocking new installs." },
-      { q: "Should I just wait?", a: "Sometimes yes. If an update is running in the background, waiting can help." },
-      { q: "What should I try first?", a: "Restart, wait a bit, and make sure no installers are running." },
+      {
+        q: "What causes Windows Update error 0x80070652?",
+        a: "Usually another installation is still running, a previous install did not finish properly, or Windows Update and installer components are stuck.",
+      },
+      {
+        q: "Should I wait if I see 0x80070652?",
+        a: "Sometimes yes. If Windows is still processing another update in the background, waiting a little while can help before resetting anything.",
+      },
+      {
+        q: "What should I try first for 0x80070652?",
+        a: "Restart your PC, close installer windows, pause third-party updater tools, and then try the update again.",
+      },
     ],
   },
 
