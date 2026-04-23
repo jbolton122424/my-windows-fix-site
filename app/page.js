@@ -114,8 +114,8 @@ export default function HomePage() {
 
       <p>
         Step-by-step help for Windows error codes, update failures, install
-        problems, Microsoft Store issues, activation errors, and network-related
-        Windows problems.
+        problems, Microsoft Store issues, activation errors, Outlook errors,
+        and network-related Windows problems.
       </p>
 
       <p>
@@ -324,6 +324,36 @@ export default function HomePage() {
             </div>
             <div style={{ marginTop: 14, fontSize: 14, fontWeight: 800 }}>
               Open Install hub →
+            </div>
+          </Link>
+
+          <Link
+            href="/outlook-errors"
+            className="card"
+            style={{
+              display: "block",
+              textDecoration: "none",
+              color: "inherit",
+              padding: 18,
+              border: "1px solid rgba(0,0,0,0.1)",
+            }}
+          >
+            <div style={{ fontWeight: 900, fontSize: 16 }}>
+              Outlook Errors
+            </div>
+            <div
+              style={{
+                marginTop: 10,
+                fontSize: 14,
+                color: "rgba(0,0,0,0.72)",
+                lineHeight: 1.6,
+              }}
+            >
+              Browse Outlook repair guides for send/receive failures, mailbox
+              sync problems, server connection issues, and profile errors.
+            </div>
+            <div style={{ marginTop: 14, fontSize: 14, fontWeight: 800 }}>
+              Open Outlook hub →
             </div>
           </Link>
         </div>

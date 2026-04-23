@@ -19,6 +19,7 @@ export async function GET() {
     "/network-errors",
     "/microsoft-store-errors",
     "/install-and-corruption-errors",
+    "/outlook-errors",
   ];
 
   const urls = [
