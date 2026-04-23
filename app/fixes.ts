@@ -492,32 +492,33 @@ sfc /scannow`,
 
   {
     slug: "0x80070020",
-    title: "Fix 0x80070020",
-    description: "Another process is locking Windows Update files.",
+    title: "Fix Windows Update Error 0x80070020",
+    description:
+      "Windows Update error 0x80070020 usually means another program is using or locking files that Windows Update needs in order to install updates.",
     whatItMeans:
-      "Another program (often antivirus, backup tools, or installers) is using a file Windows Update needs.",
+      "Error 0x80070020 usually appears when Windows Update tries to use a file that is already being used by another process. In plain English, something else on the PC is getting in the way. Common causes include antivirus scans, backup software, installer processes, or background services that temporarily lock update files and stop Windows Update from finishing cleanly.",
     tryFirst: [
       "Restart your PC and try Windows Update again.",
-      "Close background installers and pause antivirus scans temporarily.",
-      "Try updating after a clean boot (optional).",
+      "Close installer windows and pause antivirus scans temporarily.",
+      "Try the update again after a clean boot if background software keeps interfering.",
     ],
     advanced: [
-      "Run Windows Update Troubleshooter.",
-      "Repair system files: sfc /scannow",
-      "Reset Windows Update components and retry.",
+      "Run the Windows Update Troubleshooter.",
+      "Run System File Checker in Command Prompt: sfc /scannow",
+      "Reset Windows Update components if the error keeps returning.",
     ],
     scriptSection: {
-      title: "Reset Update Components (Unlock Common File Locks)",
+      title: "Reset Windows Update Components and Clear File Locks",
       intro:
-        "If another process is locking update files, restarting services and resetting the update cache often clears 0x80070020.",
-      stepsIntro: "Run these commands one at a time (Command Prompt as Admin):",
+        "If another program is locking files Windows Update needs, restarting update services and resetting the update cache is the safest next step. This often clears stuck file handles and lets the update process start fresh.",
+      stepsIntro: "Run these commands one at a time in Command Prompt as Administrator:",
       code: `net stop wuauserv
 net stop bits
 net stop cryptsvc
 net stop msiserver
 
-ren C:\\Windows\\SoftwareDistribution SoftwareDistribution.old
-ren C:\\Windows\\System32\\catroot2 catroot2.old
+ren C:\Windows\SoftwareDistribution SoftwareDistribution.old
+ren C:\Windows\System32\catroot2 catroot2.old
 
 net start wuauserv
 net start bits
@@ -525,31 +526,32 @@ net start cryptsvc
 net start msiserver
 
 sfc /scannow`,
-      outro: "Restart your PC and try Windows Update again.",
+      outro:
+        "Restart your PC after the commands finish, then try Windows Update again. If the error returns immediately, look for antivirus, backup tools, or other installers still running in the background.",
     },
     affiliateCallout: {
       title: "If the Error Still Persists",
       body: [
-        "If background software keeps locking Windows Update files, manual steps may not fully resolve repeated failures.",
-        "An automated repair tool can scan for Windows issues and help stabilize updates.",
+        "If background software or damaged system components keep locking update files, manual steps may not fully stop repeated 0x80070020 errors.",
+        "An automated Windows repair tool can scan for common Windows issues and repair them automatically.",
       ],
-      ctaText: "Fix Windows Update issues automatically",
+      ctaText: "Fix Windows Update error 0x80070020 automatically",
       href: "https://outebytech.com/W5mgq4g8",
       note:
         "Disclosure: We may earn a commission if you purchase through this link (at no extra cost to you).",
     },
     faq: [
       {
-        q: "What causes error 0x80070020?",
-        a: "It is usually caused by another program locking files Windows Update needs (antivirus, backup tools, installers).",
+        q: "What causes Windows Update error 0x80070020?",
+        a: "Usually another program is locking files Windows Update needs. Common examples include antivirus tools, backup software, installers, or stuck background services.",
       },
       {
-        q: "Is a clean boot helpful?",
-        a: "Yes. A clean boot can stop background services that interfere with updates.",
+        q: "Can antivirus cause 0x80070020?",
+        a: "Yes. Real-time antivirus scanning can sometimes lock update files long enough to trigger this error.",
       },
       {
-        q: "What should I try first?",
-        a: "Restart, pause antivirus scans, close installers, then retry.",
+        q: "What should I try first for 0x80070020?",
+        a: "Restart your PC, close installer windows, pause antivirus temporarily, and then try Windows Update again.",
       },
     ],
   },
